@@ -4,8 +4,10 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { ethers } from "ethers";
 import { IoWallet } from 'react-icons/io5'
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
 
   const getEthereumObject = () => window.ethereum;
 
@@ -55,6 +57,7 @@ export default function Home() {
       if (accounts.length !== 0) {
         console.log("Connected", accounts[0]);
         setCurrentAccount(accounts[0]);
+        router.reload()
       } else {
         setCurrentAccount(null)
       }
