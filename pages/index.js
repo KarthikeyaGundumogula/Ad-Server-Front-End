@@ -76,7 +76,7 @@ export default function Home() {
     };
     getUser()
 
-  },[currentAccount])
+  }, [currentAccount])
 
   return (
     <div className={styles.container}>
@@ -90,9 +90,12 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to MetaAd
         </h1>
-        <button className={`${styles.custombtn} ${styles.btn16}`} onClick={connectWallet} >connect wallet <IoWallet /></button>
         {currentAccount != null
-          ? <h5>{currentAccount}</h5>
+          ? <></>
+          : <button className={`${styles.custombtn} ${styles.btn16}`} onClick={connectWallet} >connect wallet <IoWallet /></button>
+        }
+        {currentAccount != null
+          ? <h5>logged in using wallet adddress {currentAccount}</h5>
           : <></>
         }
       </main>
