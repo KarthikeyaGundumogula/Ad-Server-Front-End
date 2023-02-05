@@ -1,8 +1,83 @@
 import Head from 'next/head'
+import React, { useEffect, useState } from "react";
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { ethers } from "ethers";
+import { IoWallet } from 'react-icons/io5'
 
 export default function Home() {
+
+  const getEthereumObject = () => window.ethereum;
+
+  const [currentAccount, setCurrentAccount] = useState(null);
+
+  const findMetaMaskAccount = async () => {
+    try {
+      const ethereum = getEthereumObject();
+
+      /*
+       * First make sure we have access to the Ethereum object.
+       */
+      if (!ethereum) {
+        console.error("Make sure you have Metamask!");
+        return null;
+      }
+
+      console.log("We have the Ethereum object", ethereum);
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        return account;
+      } else {
+        console.error("No authorized account found");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      const ethereum = getEthereumObject();
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log(accounts)
+      if (accounts.length !== 0) {
+        console.log("Connected", accounts[0]);
+        setCurrentAccount(accounts[0]);
+      } else {
+        setCurrentAccount(null)
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+
+    const getUser = async () => {
+      const account = await findMetaMaskAccount();
+      if (account !== null) {
+        setCurrentAccount(account);
+      } else {
+        setCurrentAccount(null)
+      }
+    };
+    getUser()
+
+  },[currentAccount])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,58 +88,17 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to MetaAd
         </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <button className={`${styles.custombtn} ${styles.btn16}`} onClick={connectWallet} >connect wallet <IoWallet /></button>
+        {currentAccount != null
+          ? <h5>{currentAccount}</h5>
+          : <></>
+        }
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+        made with &#10084;&#65039; in EthforAll
       </footer>
     </div>
   )

@@ -53,10 +53,10 @@ a {
   }
 
   body {
-    color: white;
+    color: rgb(189, 165, 238);
     background: rgb(0, 0, 0);
-    background: -moz-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 56%, rgba(57, 0, 166, 1) 100%);
-    background: -webkit-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 56%, rgba(57, 0, 166, 1) 100%);
+    background: -moz-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 66%, rgba(57, 0, 166, 1) 100%);
+    background: -webkit-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 66%, rgba(57, 0, 166, 1) 100%);
     background: linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 56%, rgba(57, 0, 166, 1) 100%);
   }
 }
