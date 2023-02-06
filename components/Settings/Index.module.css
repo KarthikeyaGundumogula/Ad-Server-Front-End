@@ -48,10 +48,16 @@
     border: 1px solid rgba( 255, 255, 255, 0.18 );
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
 }
 
 .main{
     min-height: 100vh;
     display: flex;
     justify-content: center
+}
+
+#title{
+    margin-left: 64px;
+    margin-top: 50px;
 }

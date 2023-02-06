@@ -35,6 +35,7 @@ function Setting() {
     return (
         <div className={styles.main}>
             <div className={styles.formContainer}>
+                <h1 id="title" >Edit Business Details</h1>
                 <form className={styles.form}>
                     <CssTextField
                         id="standard-basic"
@@ -69,22 +70,6 @@ function Setting() {
                         label="User Name"
                         required
                     />
-                    {/* <input
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Email address"
-                type="email"
-                name="email"
-                required
-            /> */}
-                    {/* <input
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="Password"
-                type="password"
-                name="password"
-                required
-            /> */}
                     <button className={styles.button} type="submit">Submit</button>
                 </form>
             </div>
