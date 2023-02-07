@@ -45,9 +45,9 @@ const Header = () => {
                 {/* <li className={styles.logo}>
           <img src="/static/settings/ask.png" className={styles.logoImg} />
         </li> */}
-                {/* <Link href="/ask" className={styles.pageslink}>
-          <li className={styles.navtext}>Ask</li>
-        </Link> */}
+                <Link href="/manage" className={styles.pageslink}>
+                    <li className={styles.navtext}>Manage</li>
+                </Link>
                 {/* <li className={styles.logo}>
           <img src="/static/settings/polls.png" className={styles.logoImg} />
         </li> */}

@@ -35,7 +35,7 @@ function Setting() {
     return (
         <div className={styles.main}>
             <div className={styles.formContainer}>
-                <h1 id="title" >Edit Business Details</h1>
+                <h1 className={styles.title} >Edit Business Details</h1>
                 <form className={styles.form}>
                     <CssTextField
                         id="standard-basic"
