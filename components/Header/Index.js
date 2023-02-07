@@ -32,32 +32,18 @@ const Header = () => {
             <ul className={styles.navbar}>
                 <Link href="/" className={styles.pageslink}>
                     <li className={styles.logo}>
-                        Meta Ad
+                        AdChain
                     </li>
                 </Link>
-                {/* <Link href="/questions" className={styles.pageslink}> */}
-                <li className={styles.navtext}>Create</li>
-                {/* </Link> */}
-                {/* <li className={styles.logo}>
-          <img src="/static/settings/fire.png" className={styles.logoImg} />
-        </li> */}
-                {/* <li className={styles.navtext}>Hot Questions</li> */}
-                {/* <li className={styles.logo}>
-          <img src="/static/settings/ask.png" className={styles.logoImg} />
-        </li> */}
+                <Link href="/create" className={styles.pageslink}>
+                    <li className={styles.navtext}>Create</li>
+                </Link>
                 <Link href="/manage" className={styles.pageslink}>
                     <li className={styles.navtext}>Manage</li>
                 </Link>
-                {/* <li className={styles.logo}>
-          <img src="/static/settings/polls.png" className={styles.logoImg} />
-        </li> */}
                 <Link href="/settings" className={styles.pageslink}>
                     <li className={styles.navtext}>Settings</li>
                 </Link>
-                {/* <li className={styles.logo}>
-          <img src="/static/settings/search.png" className={styles.logoImg} />
-        </li> */}
-                {/* <Link href="/search" className={styles.pageslink}> */}
                 {ethAccount != null
                     ? <li className={styles.navtext}>
                         <Tooltip title={ethAccount}>
@@ -66,8 +52,6 @@ const Header = () => {
                     </li>
                     : <li></li>
                 }
-
-                {/* </Link> */}
 
             </ul>
         </div>

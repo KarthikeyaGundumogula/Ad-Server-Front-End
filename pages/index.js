@@ -91,7 +91,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to MetaAd
+          Welcome to AdChain
         </h1>
         {currentAccount != null
           ? <></>
