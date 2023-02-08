@@ -154,7 +154,7 @@ export default function Create() {
                             </Tooltip>
                         </div>
                         <div className={styles.uploadFile}>
-                            <div className={styles.text}>upload files</div>
+                            <div className={styles.text}>Upload Files</div>
                             {allfile.length > 0 && <div className={styles.text}>{allfile.length} files choosen</div>}
                             <input
                                 id="ipfs_file"
