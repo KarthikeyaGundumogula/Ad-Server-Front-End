@@ -7,27 +7,26 @@
     height: 40px;
     padding: 10px 25px;
     font-family: 'Lato', sans-serif;
-    font-weight: 500;
-    background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 10px );
-    -webkit-backdrop-filter: blur( 10px );
+    font-weight: 700;
+    font-size: medium;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    /* box-shadow: inset 2px 2px 2px 0px rgba(78, 24, 216, 0.5),
-        7px 7px 20px 0px rgba(0, 0, 0, .1),
-        4px 4px 5px 0px rgba(0, 0, 0, .1); */
+    color: #C89B7B;
     outline: none;
 }
 
-.button:hover{
-    background: rgba( 255, 255, 255, 0.1 );
+.button:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.form{
+.form {
     display: flex;
     flex-direction: column;
     width: 60%;
@@ -37,27 +36,27 @@
     margin: auto;
 }
 
-.formContainer{
+.formContainer {
     width: 80%;
     height: 75vh;
-    background: rgba( 255, 255, 255, 0.02 );
+    background: rgba(255, 255, 255, 0.02);
     box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
-    backdrop-filter: blur( 8px );
-    -webkit-backdrop-filter: blur( 8px );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
 }
 
-.main{
+.main {
     min-height: 100vh;
     display: flex;
     justify-content: center
 }
 
-.title{
+.title {
     margin-left: 64px;
     margin-top: 50px;
 }

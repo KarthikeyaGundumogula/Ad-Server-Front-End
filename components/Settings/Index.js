@@ -11,24 +11,16 @@ function Setting() {
 
     const CssTextField = styled(TextField)({
         '& label.Mui-focused': {
-            color: 'rgb(189, 165, 238)',
+            color: 'rgb(200,155,123)',
         },
         '& label': {
-            color: 'rgb(189, 165, 238)',
+            color: 'rgb(204,90,113)',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: 'rgb(189, 165, 238)',
+            borderBottomColor: 'rgb(200,155,123)',
         },
-        '& .MuiStandardInput-root': {
-            '& fieldset': {
-                borderColor: 'rgb(189, 165, 238)',
-            },
-            '&:hover fieldset': {
-                borderColor: 'yellow',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'rgb(189, 165, 238)',
-            },
+        '& .MuiInput-underline:before': {
+            borderBottomColor: 'rgb(204,90,113)',
         },
     });
 
@@ -54,7 +46,7 @@ function Setting() {
                         variant="standard"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        placeholder="First name"
+                        placeholder="Email Id"
                         type="email"
                         label="Email Id"
                         required

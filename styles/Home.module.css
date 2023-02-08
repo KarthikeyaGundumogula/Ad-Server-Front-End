@@ -132,29 +132,30 @@
 }
 
 .custombtn {
-  width: 153px;
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  align-content: center;
+  width: 155px;
   height: 40px;
-  /* color: #ffffff; */
+  color: #fff;
   border-radius: 5px;
   padding: 10px 25px;
   font-family: 'Lato', sans-serif;
   font-weight: 500;
-  background: #300c7e;
+  background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  box-shadow: inset 2px 2px 2px 0px rgba(78, 24, 216, 0.5),
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: inset 2px 2px 2px 0px rgba(136, 63, 63, 0.733),
     7px 7px 20px 0px rgba(0, 0, 0, .1),
     4px 4px 5px 0px rgba(0, 0, 0, .1);
   outline: none;
 }
 
 .btn16 {
+  background: #CC5A71;
   border: none;
+  z-index: 1;
 }
 
 .btn16:after {
@@ -163,24 +164,22 @@
   width: 0;
   height: 100%;
   top: 0;
-  left: 0;
-  direction: rtl;
+  right: 0;
   z-index: -1;
-  box-shadow:
-    -7px -7px 20px 0px rgba(79, 30, 169, 0.6),
-    -4px -4px 5px 0px rgba(100, 52, 183, 0.6),
-    7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  background-color: #80475E;
+  border-radius: 5px;
+  box-shadow: inset 2px 2px 2px 0px rgba(135, 99, 99, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, .1),
+    4px 4px 5px 0px rgba(0, 0, 0, .1);
   transition: all 0.3s ease;
 }
 
 .btn16:hover {
-  color: #e7d8eb;
+  color: #fff;
 }
 
 .btn16:hover:after {
-  left: auto;
-  right: 0;
+  left: 0;
   width: 100%;
 }
 

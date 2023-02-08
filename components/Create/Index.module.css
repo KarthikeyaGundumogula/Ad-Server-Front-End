@@ -1,0 +1,133 @@
+.mainContainer {
+    display: flex;
+    min-height: 100vh;
+    /* gap: 1.5rem; */
+    /* grid-template-columns: repeat(4, 1fr); */
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-left: 30px;
+    gap: 30px;
+}
+
+.formContainer {
+    width: 100%;
+}
+
+.dataContainer {
+    min-height: 100vh;
+    width: 63%;
+    background: #80475E;
+    /* box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%); */
+    /* backdrop-filter: blur( 8px ); */
+    /* -webkit-backdrop-filter: blur( 8px ); */
+    border-radius: 0px 100% 100% 0px;
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.textContainer{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 86px;
+    font-weight: 800;
+    margin: auto;
+    line-height: 80px;
+}
+
+.button {
+    width: 155px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: medium;
+    justify-content: center;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    box-shadow: 12px 12px 9px 4px rgb(112 63 81 / 65%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%);
+    outline: none;
+}
+
+.button {
+
+    background: #80475E;
+    border: none;
+    z-index: 1;
+}
+
+.button:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #CC5A71;
+    border-radius: 5px;
+    box-shadow: inset 2px 10px 11px 2px #70354d29, 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%);
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    color: #fff;
+}
+
+.button:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+.button:active {
+    top: 2px;
+}
+
+.Dashboard {
+    display: grid;
+}
+
+@media screen and (max-width:1160px) {
+    .mainContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.uploadFile {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.text{
+    color: rgb(228,200,208);
+    font-size: large;
+}
+
+.choosenfile{
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filename{
+    display: flex;
+    gap:18px;
+    align-items: center;
+}
