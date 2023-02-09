@@ -1,62 +1,148 @@
-.mainContainer{
-    display: grid;
+.mainContainer {
+    display: flex;
     min-height: 100vh;
     gap: 1.5rem;
-    grid-template-columns: repeat(4,1fr);
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-.dataContainer{
-    height: 350px;
-    background: rgba( 255, 255, 255, 0.02 );
-    box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
-    backdrop-filter: blur( 8px );
-    -webkit-backdrop-filter: blur( 8px );
+.dataContainer {
+    height: 200px;
+    /* background: rgb(118, 65, 86);
+    background: -moz-linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
+    background: -webkit-linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
+    background: linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#764156", endColorstr="#422430", GradientType=1); */
+    background: #5D3244;
+    box-shadow: 0 8px 32px 0 rgb(118 65 86 / 37%);
+    /* backdrop-filter: blur( 8px );
+    -webkit-backdrop-filter: blur( 8px ); */
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 50px;
-    min-width: 270px;
+    width: 210px;
+}
+
+.fundsDisplay {
+    height: 200px;
+    width: 80%;
+    background: #5D3244;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+    justify-content: space-around;
+}
+
+.fundsDisplay>div {
+    display: flex;
+    gap: 20px;
+}
+
+.fundsDisplay>div div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    gap: 15px;
+    font-weight: bold;
+}
+
+.fundsDisplay>div div:first-child {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.fundsDisplay>div:last-child {
+    display: grid;
+    gap: 15px;
+}
+
+.fundsDisplay h1 {
+    font-size: 100px;
+    margin: 0;
+}
+
+.otherData{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 80%;
 }
 
 .button {
-    width: 130px;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    flex-wrap: wrap;
-    align-content: center;
+    width: 165px;
     height: 40px;
+    color: #fff;
+    border-radius: 5px;
     padding: 10px 25px;
     font-family: 'Lato', sans-serif;
     font-weight: 500;
-    background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 10px );
-    -webkit-backdrop-filter: blur( 10px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    font-size: medium;
+    justify-content: center;
+    /* background: transparent; */
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    /* box-shadow: inset 2px 2px 2px 0px rgba(78, 24, 216, 0.5),
-        7px 7px 20px 0px rgba(0, 0, 0, .1),
-        4px 4px 5px 0px rgba(0, 0, 0, .1); */
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    /* box-shadow: 12px 12px 9px 4px rgb(112 63 81 / 65%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%); */
     outline: none;
 }
 
-.button:hover{
-    background: rgba( 255, 255, 255, 0.1 );
+.button {
+
+    background: rgb(118, 65, 86);
+    background: linear-gradient(153deg, rgba(118, 65, 86, 0.8939950980392157) 0%, rgba(98, 51, 71, 0.9612219887955182) 100%);
+    box-shadow: 5px 7px 5px 0 rgb(66 36 48);
+    border: none;
+    z-index: 1;
 }
 
-.Dashboard{
-    display: grid;
+.button:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #CC5A71;
+    border-radius: 5px;
+    /* box-shadow: inset 2px 10px 11px 2px #70354d29, 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%); */
+    transition: all 0.3s ease;
 }
+
+.button:hover {
+    color: #fff;
+    box-shadow: 5px 7px 9px 0 rgb(66 36 48);
+
+}
+
+.button:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+.button:active {
+    top: 2px;
+}
+
+/* .Dashboard {
+    display: grid;
+} */
 
 @media screen and (max-width:1160px) {
-    .mainContainer{
-        grid-template-columns: repeat(3,1fr);
+    .mainContainer {
+        grid-template-columns: repeat(3, 1fr);
     }
+}
+
+.text {
+    font-size: large;
+    font-weight: bold;
 }

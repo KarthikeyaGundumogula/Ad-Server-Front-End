@@ -110,7 +110,7 @@ export default function Create() {
                                 ref={clickReward}
                                 placeholder="Reward you want to give for clicking on Ad"
                                 type="number"
-                                label="Reward for Clicks on Ad"
+                                label="Reward for Clicks on Ad (ETH)"
                                 required
                                 fullWidth
                             />
@@ -128,7 +128,7 @@ export default function Create() {
                                 onChange={e => setDisplayReward(e.target.value)}
                                 placeholder="Reward you want to give for displaying Ad"
                                 type="number"
-                                label="Reward for Displaying Ad"
+                                label="Reward for Displaying Ad (ETH)"
                                 required
                                 fullWidth
                             />
@@ -145,7 +145,7 @@ export default function Create() {
                                 onChange={e => setTotalFunds(e.target.value)}
                                 placeholder="Total Fund for Campaign"
                                 type="number"
-                                label="Total Funds"
+                                label="Total Funds (ETH)"
                                 required
                                 fullWidth
                             />
