@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import TextField from '@mui/material/TextField';
 import { alpha, styled } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
@@ -14,11 +15,13 @@ export default function Create() {
 
     const client = new Web3Storage({ token: API_TOKEN });
 
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState([]);
 
     const [filename, setFilename] = useState([]);
 
     const [allfile, setAllfile] = useState({});
+
+    const [uploadStatus, setUploadStatus] = useState(false)
 
     const clickReward = useRef();
     const displayReward = useRef();
@@ -46,6 +49,8 @@ export default function Create() {
     const handleUpload = async () => {
         var fileInput = ipfs_file;
 
+        setUploadStatus(true)
+
         const rootCid = await client.put(fileInput.files, {
             name: "Advertisement banner",
         });
@@ -55,9 +60,16 @@ export default function Create() {
         const res = await client.get(rootCid);
         const files = await res.files();
         console.log(files);
-        const url = URL.createObjectURL(files[0]);
-        console.log(url);
-        setFile(url);
+
+        setUploadStatus(false)
+
+        let temp = []
+        for (let i = 0; i < files.length; i++) {
+            temp.push(URL.createObjectURL(files[i]));
+        }
+
+        setFile(temp);
+        console.log(temp)
     };
     const forloop = useCallback(() => {
         let temp = []
@@ -165,9 +177,13 @@ export default function Create() {
                                     setAllfile(ipfs_file.files);
                                 }}
                             />
-                            <button className={styles.button} type="button" onClick={uploadFile}>
-                                choose files
-                            </button>
+                            {uploadStatus == false
+                                ? <button className={styles.button} type="button" onClick={uploadFile}>
+                                    choose files
+                                </button>
+                                : <CircularProgress color="inherit" />
+                            }
+
                             <button className={styles.button} type="button" onClick={handleUpload}>
                                 Submit
                             </button>
@@ -188,7 +204,15 @@ export default function Create() {
                                 )
                                 }
                             </div>
-
+                        </div>
+                        <div className={styles.imageContainer}>
+                            {
+                                file.map((fileUrl) => {
+                                    return (
+                                        <Image alt="ad images" src={fileUrl} width={250} height={150} />
+                                    )
+                                })
+                            }
                         </div>
                     </form>
                 </div >
@@ -200,8 +224,5 @@ export default function Create() {
             </div>
         </div>
 
-        /* <div className={styles.dataContainer}>
-                        <Image alt="hi" src={file} width={250} height={250} />
-                    </div> */
     );
 }
