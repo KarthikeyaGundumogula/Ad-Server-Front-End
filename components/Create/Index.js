@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./Index.module.css";
 import { Web3Storage } from "web3.storage";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -8,6 +9,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 export default function Create() {
     const API_TOKEN =
@@ -28,6 +32,44 @@ export default function Create() {
     const totalFunds = useRef();
     const AdName = useRef();
 
+    const [open, setOpen] = useState(false);
+
+    const getEthereumObject = () => window.ethereum;
+
+    const [ethAccount, setEthAccount] = useState(null)
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+
+        const warning = document.getElementsByClassName("warning")
+
+        const getUser = async () => {
+            const ethereum = getEthereumObject();
+            const accounts = await ethereum.request({ method: "eth_accounts" });
+            const account = accounts[0];
+            if (account !== null) {
+                setEthAccount(account);
+            } else {
+                setEthAccount(null)
+            }
+        };
+        getUser()
+
+        const closePopUp = (e) => {
+            if (e.target.id != "alert") {
+                handleClose()
+                console.log(e)
+            }
+           
+        }
+
+        document.body.addEventListener("click", closePopUp)
+
+    }, [ethAccount])
+
     const CssTextField = styled(TextField)({
         '& label.Mui-focused': {
             color: 'rgb(200,155,123)',
@@ -45,6 +87,11 @@ export default function Create() {
             borderBottomColor: 'rgb(228,200,208)',
         },
     });
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    console.log(open)
 
     const handleUpload = async () => {
         var fileInput = ipfs_file;
@@ -90,10 +137,6 @@ export default function Create() {
         document.getElementById("ipfs_file").click();
     }
 
-    // const deletefile = useCallback((idx) => {
-    //     setFilename((prev) => delete allfile);
-    // }, []);
-
     return (
         <div className={styles.mainContainer}>
             <div className={styles.dataContainer}>
@@ -137,7 +180,6 @@ export default function Create() {
                                 // label="Outlined"
                                 variant="standard"
                                 ref={displayReward}
-                                onChange={e => setDisplayReward(e.target.value)}
                                 placeholder="Reward you want to give for displaying Ad"
                                 type="number"
                                 label="Reward for Displaying Ad (ETH)"
@@ -154,7 +196,6 @@ export default function Create() {
                                 // label="Outlined"
                                 variant="standard"
                                 ref={totalFunds}
-                                onChange={e => setTotalFunds(e.target.value)}
                                 placeholder="Total Fund for Campaign"
                                 type="number"
                                 label="Total Funds (ETH)"
@@ -183,11 +224,22 @@ export default function Create() {
                                 </button>
                                 : <CircularProgress color="inherit" />
                             }
-
-                            <button className={styles.button} type="button" onClick={handleUpload}>
-                                Submit
-                            </button>
+                            {ethAccount != null
+                                ? <button className={styles.button} type="button" onClick={handleUpload}>
+                                    Submit
+                                </button>
+                                : <button className={styles.button} type="button" onClick={handleClickOpen} id="alert">
+                                    Submit
+                                </button>
+                            }
                         </div>
+                        {open
+                            ? <Alert severity="warning" className="warning" id="alert">
+                                <AlertTitle>Warning</AlertTitle>
+                                Wallet is not connected — <strong>Connect Wallet</strong>
+                            </Alert>
+                            : <></>
+                        }
                         <div className={styles.choosenfile}>
                             {filename.length > 0 && <div className={styles.text} style={{ textDecoration: "underline" }}>Selected file</div>}
                             <div>

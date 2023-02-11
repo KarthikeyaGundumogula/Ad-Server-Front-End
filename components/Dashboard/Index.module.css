@@ -9,23 +9,19 @@
 
 .dataContainer {
     height: 200px;
-    /* background: rgb(118, 65, 86);
-    background: -moz-linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
-    background: -webkit-linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
-    background: linear-gradient(153deg, rgba(118, 65, 86, 1) 0%, rgba(66, 36, 48, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#764156", endColorstr="#422430", GradientType=1); */
     background: #5D3244;
     box-shadow: 0 8px 32px 0 rgb(118 65 86 / 37%);
-    /* backdrop-filter: blur( 8px );
-    -webkit-backdrop-filter: blur( 8px ); */
     border-radius: 10px;
-    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     gap: 50px;
-    width: 210px;
+}
+
+.dataContainer>div:first-child {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
 }
 
 .fundsDisplay {
@@ -67,10 +63,26 @@
     margin: 0;
 }
 
-.otherData{
+.otherData {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: 80%;
+}
+
+.publisher {
+    width: 64%;
+    background: #5D3244;
+    border-radius: 10px;
+    display: flex;
+    gap: 100px;
+    align-items: center;
+    padding: 0 74px;
+}
+
+.publisher>div:first-child {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
 }
 
 .button {
@@ -83,14 +95,12 @@
     font-weight: 500;
     font-size: medium;
     justify-content: center;
-    /* background: transparent; */
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     display: flex;
     align-items: center;
-    gap: 2px;
-    /* box-shadow: 12px 12px 9px 4px rgb(112 63 81 / 65%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%); */
+    gap: 12px;
     outline: none;
 }
 
@@ -113,7 +123,6 @@
     z-index: -1;
     background-color: #CC5A71;
     border-radius: 5px;
-    /* box-shadow: inset 2px 10px 11px 2px #70354d29, 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%); */
     transition: all 0.3s ease;
 }
 
@@ -131,10 +140,6 @@
 .button:active {
     top: 2px;
 }
-
-/* .Dashboard {
-    display: grid;
-} */
 
 @media screen and (max-width:1160px) {
     .mainContainer {
