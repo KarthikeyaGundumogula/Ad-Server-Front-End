@@ -47,16 +47,20 @@ a {
   box-sizing: border-box;
 }
 
-.MuiFormLabel-root{
-  color:#C89B7B
+.MuiFormLabel-root {
+  color: #C89B7B
 }
 
-.MuiSvgIcon-root{
-  color:#C89B7B
+.MuiSvgIcon-root {
+  color: #C89B7B
 }
 
 .MuiFormLabel-root.Mui-focused {
-  color:#C89B7B
+  color: #C89B7B
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background-color: rgb(207, 210, 218) !important;
 }
 
 @media (prefers-color-scheme: dark) {

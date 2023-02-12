@@ -47,7 +47,7 @@ const Header = () => {
                             </Tooltip>
                         </li>
                         : <li>
-                            <button className={`${styles.custombtn} ${styles.btn16}`} >connect wallet <IoWallet /></button>
+                            <button className={`${styles.custombtn} ${styles.btn16}`} >Login</button>
                         </li>
                     }
                 </Link>
