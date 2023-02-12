@@ -11,8 +11,8 @@ import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import InputBase from '@mui/material/InputBase';
 import { useState } from "react";
 
-import Lottie from 'react-lottie';
-import animationData from '../lotties/Ad';
+// import Lottie from 'react-lottie';
+// import animationData from '../lotties/Ad';
 
 export default function Dashboard() {
 
@@ -22,14 +22,14 @@ export default function Dashboard() {
         setCampaign(event.target.value);
     };
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    };
+    // const defaultOptions = {
+    //     loop: true,
+    //     autoplay: true,
+    //     animationData: animationData,
+    //     rendererSettings: {
+    //         preserveAspectRatio: "xMidYMid slice"
+    //     }
+    // };
 
     const BootstrapInput = styled(InputBase)(({ theme }) => ({
         'label + &': {
@@ -126,11 +126,11 @@ export default function Dashboard() {
                             <MenuItem value={30}>Thirty</MenuItem>
                         </Select>
                     </FormControl>
-                    <Lottie
+                    {/* <Lottie
                         options={defaultOptions}
                         height={200}
                         width={300}
-                    />
+                    /> */}
                 </div>
             </div>
         </div>

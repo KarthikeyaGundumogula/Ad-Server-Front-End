@@ -4,28 +4,23 @@ import Link from "next/link";
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useState, useEffect } from "react";
+import { IoWallet } from 'react-icons/io5'
+import { useAccount } from "wagmi";
 
 const Header = () => {
     const router = useRouter();
+
     const getEthereumObject = () => window.ethereum;
+
+    const { address } = useAccount()
 
     const [ethAccount, setEthAccount] = useState(null)
 
     useEffect(() => {
 
-        const getUser = async () => {
-            const ethereum = getEthereumObject();
-            const accounts = await ethereum.request({ method: "eth_accounts" });
-            const account = accounts[0];
-            if (account !== null) {
-                setEthAccount(account);
-            } else {
-                setEthAccount(null)
-            }
-        };
-        getUser()
+        setEthAccount(address)
 
-    }, [ethAccount])
+    }, [ethAccount, address])
 
     return (
         <div className={styles.navdiv}>
@@ -44,15 +39,18 @@ const Header = () => {
                 <Link href="/settings" className={styles.pageslink}>
                     <li className={styles.navtext}>Settings</li>
                 </Link>
-                {ethAccount != null
-                    ? <li className={styles.navtext}>
-                        <Tooltip title={ethAccount}>
-                            <Avatar alt="user" src="https://api.dicebear.com/5.x/identicon/svg?seed=Cuddles" />
-                        </Tooltip>
-                    </li>
-                    : <li></li>
-                }
-
+                <Link href="/login" className={styles.pageslink}>
+                    {ethAccount != null
+                        ? <li className={styles.navtext}>
+                            <Tooltip title={ethAccount}>
+                                <Avatar alt="user" src="https://api.dicebear.com/5.x/identicon/svg?seed=Cuddles" />
+                            </Tooltip>
+                        </li>
+                        : <li>
+                            <button className={`${styles.custombtn} ${styles.btn16}`} >connect wallet <IoWallet /></button>
+                        </li>
+                    }
+                </Link>
             </ul>
         </div>
     );
