@@ -4,7 +4,6 @@ import Link from "next/link";
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useState, useEffect } from "react";
-import { IoWallet } from 'react-icons/io5'
 import { useAccount } from "wagmi";
 import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
