@@ -38,11 +38,9 @@
 .navtext {
   margin-right: 4vw;
   color: #C89B7B;
-  ;
-}
-
-.navtext:hover {
+  position: relative;
   cursor: pointer;
+  padding-right: 10px;
 }
 
 .arrow {
@@ -89,15 +87,14 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 2px;
-  box-shadow: inset 2px 2px 2px 0px rgba(136, 63, 63, 0.733),
-    7px 7px 20px 0px rgba(0, 0, 0, .1),
-    4px 4px 5px 0px rgba(0, 0, 0, .1);
+  box-shadow: inset 2px 2px 2px 0px rgb(157 140 109 / 73%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%);
   outline: none;
 }
 
 .btn16 {
-  background: #CC5A71;
+  background: #726148;
   border: none;
   z-index: 1;
 }
@@ -129,4 +126,22 @@
 
 .btn16:active {
   top: 2px;
+}
+
+.navtext::before {
+  content: "";
+  background: #C89B7B;
+  width: 100%;
+  height: 0.2rem;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 150ms;
+}
+
+.navtext:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

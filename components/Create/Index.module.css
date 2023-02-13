@@ -150,7 +150,7 @@
     width: 204px;
     height: 38px;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 10px 25px;
     font-family: 'Lato', sans-serif;
     font-weight: 500;
@@ -163,13 +163,13 @@
     display: flex;
     align-items: center;
     gap: 2px;
-    /* box-shadow: 12px 12px 9px 4px rgb(112 63 81 / 65%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%); */
+    box-shadow: 6px 8px 16px -2px rgb(11 47 82 / 65%), 7px 7px 20px 0px rgb(0 0 0 / 10%), 4px 4px 5px 0px rgb(0 0 0 / 10%);
     outline: none;
 }
 
 .button2 {
 
-    background: #80475E;
+    background: #083962;
     border: none;
     z-index: 1;
 }

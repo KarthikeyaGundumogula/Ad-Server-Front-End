@@ -60,10 +60,6 @@ const Login = () => {
   return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "flex-start", flexDirection: "column", gap: "70px" }}>
       <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "30px", width: "100%" }}>
-        {connected
-          ? <button className={styles.button2} onClick={handleClickOpen}>Become Ad Publisher</button>
-          : <></>
-        }
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Become Publisher</DialogTitle>
           <DialogContent>
@@ -107,8 +103,15 @@ const Login = () => {
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", flexDirection: "column", gap: "24px" }}>
         <div className={styles.heading}>Welcome to AdChain</div>
-        <div className={styles.info}>Connect your wallet to login</div>
+        {connected
+          ? <></>
+          : <div className={styles.info}>Connect your wallet to login</div>
+        }
         <ConnectButton />
+        {connected
+          ? <button className={styles.button2} onClick={handleClickOpen}>Become Ad Publisher</button>
+          : <></>
+        }
       </div>
     </div>
   );
