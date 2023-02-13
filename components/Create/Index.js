@@ -63,7 +63,7 @@ export default function Create() {
                 handleClose()
                 console.log(e)
             }
-           
+
         }
 
         document.body.addEventListener("click", closePopUp)
@@ -93,31 +93,6 @@ export default function Create() {
     };
     console.log(open)
 
-    const handleUpload = async () => {
-        var fileInput = ipfs_file;
-
-        setUploadStatus(true)
-
-        const rootCid = await client.put(fileInput.files, {
-            name: "Advertisement banner",
-        });
-
-        console.log(rootCid);
-
-        const res = await client.get(rootCid);
-        const files = await res.files();
-        console.log(files);
-
-        setUploadStatus(false)
-
-        let temp = []
-        for (let i = 0; i < files.length; i++) {
-            temp.push(URL.createObjectURL(files[i]));
-        }
-
-        setFile(temp);
-        console.log(temp)
-    };
     const forloop = useCallback(() => {
         let temp = []
         for (let i = 0; i < allfile.length; i++) {
@@ -132,6 +107,35 @@ export default function Create() {
     }, [allfile]);
 
     console.log(filename);
+
+    const handleUpload = async () => {
+        var fileInput = ipfs_file;
+
+        if (filename.length > 0) {
+            setUploadStatus(true)
+
+            const rootCid = await client.put(fileInput.files, {
+                name: "Advertisement banner",
+            });
+
+            console.log(rootCid);
+
+            const res = await client.get(rootCid);
+            const files = await res.files();
+            console.log(files);
+
+            setUploadStatus(false)
+
+            let temp = []
+            for (let i = 0; i < files.length; i++) {
+                temp.push(URL.createObjectURL(files[i]));
+            }
+
+            setFile(temp);
+            console.log(temp)
+        }
+
+    };
 
     function uploadFile() {
         document.getElementById("ipfs_file").click();
@@ -158,7 +162,7 @@ export default function Create() {
                             </Tooltip>
 
                         </div>
-                        <div style={{ display: "flex", alignItems: "flex-end" }}>
+                        {/* <div style={{ display: "flex", alignItems: "flex-end" }}>
                             <CssTextField
                                 id="standard-basic"
                                 variant="standard"
@@ -189,7 +193,7 @@ export default function Create() {
                             <Tooltip title="Reward you want to give for displaying Ad">
                                 <InfoOutlinedIcon />
                             </Tooltip>
-                        </div>
+                        </div> */}
                         <div style={{ display: "flex", alignItems: "flex-end" }}>
                             <CssTextField
                                 id="standard-basic"
@@ -212,7 +216,6 @@ export default function Create() {
                             <input
                                 id="ipfs_file"
                                 type="file"
-                                multiple={true}
                                 style={{ display: "none" }}
                                 onChange={() => {
                                     setAllfile(ipfs_file.files);
@@ -257,11 +260,12 @@ export default function Create() {
                                 }
                             </div>
                         </div>
+                        {file.length > 0 && <div className={styles.text} style={{ textDecoration: "underline" }}>Uploaded file</div>}
                         <div className={styles.imageContainer}>
                             {
                                 file.map((fileUrl) => {
                                     return (
-                                        <Image alt="ad images" src={fileUrl} width={250} height={150} />
+                                        <img alt="ad images" src={fileUrl} />
                                     )
                                 })
                             }
