@@ -63,21 +63,16 @@ a {
   background-color: rgb(207, 210, 218) !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 
-  body {
-    color: #C89B7B;
-    /* background: #34344A; */
-    /* background: -moz-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 66%, rgba(57, 0, 166, 1) 100%);
+body {
+  color: #C89B7B;
+  /* background: #34344A; */
+  /* background: -moz-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 66%, rgba(57, 0, 166, 1) 100%);
     background: -webkit-linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 66%, rgba(57, 0, 166, 1) 100%);
     background: linear-gradient(138deg, rgba(0, 0, 0, 1) 0%, rgba(26, 0, 75, 1) 56%, rgba(57, 0, 166, 1) 100%); */
-    background: rgb(50, 100, 154);
-    background: -moz-linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
-    background: -webkit-linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
-    background: linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#32649a", endColorstr="#0a100d", GradientType=1);
-  }
+  background: rgb(50, 100, 154);
+  background: -moz-linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
+  background: -webkit-linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
+  background: linear-gradient(160deg, rgba(50, 100, 154, 1) 0%, rgba(30, 62, 95, 1) 38%, rgba(10, 16, 13, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#32649a", endColorstr="#0a100d", GradientType=1);
 }
