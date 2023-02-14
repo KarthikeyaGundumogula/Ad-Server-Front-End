@@ -22,8 +22,8 @@ export default function Create() {
   const client = new Web3Storage({ token: API_TOKEN });
 
   const [file, setFile] = useState([]);
-  const Server_ABI = process.env.NEXT_PUBLIC_Server_Contract_ABI;
-  const Server_Address = process.env.NEXT_PUBLIC_Server_Contract_Address;
+  const Server_ABI = process.env.NEXT_PUBLIC_Server_ABI;
+  const Server_Address = process.env.NEXT_PUBLIC_Server_ADDRESS;
 
   const [filename, setFilename] = useState([]);
 
@@ -48,7 +48,7 @@ export default function Create() {
 
   useEffect(() => {
     const warning = document.getElementsByClassName("warning");
-
+    console.log(Server_Address);
     const getUser = async () => {
       const ethereum = getEthereumObject();
       const accounts = await ethereum.request({ method: "eth_accounts" });
