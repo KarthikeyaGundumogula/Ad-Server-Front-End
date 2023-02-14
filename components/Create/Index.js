@@ -22,8 +22,8 @@ export default function Create() {
   const client = new Web3Storage({ token: API_TOKEN });
 
   const [file, setFile] = useState([]);
-  const Server_ABI = process.env.Server_Contract_ABI;
-  const Server_Address = process.env.Server_Contract_Address;
+  const Server_ABI = process.env.NEXT_PUBLIC_Server_Contract_ABI;
+  const Server_Address = process.env.NEXT_PUBLIC_Server_Contract_Address;
 
   const [filename, setFilename] = useState([]);
 
@@ -64,7 +64,6 @@ export default function Create() {
     const closePopUp = (e) => {
       if (e.target.id != "alert") {
         handleClose();
-        console.log(e);
       }
     };
 
@@ -125,14 +124,19 @@ export default function Create() {
       }
 
       setFile(temp);
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(Server_Address, Server_ABI, signer);
-      let uri = `https://ipfs.io/ipfs/${rootCid}`;
-      const tx = await contract.createAd(uri, totalFunds);
-      const receipt = await tx.wait();
-      console.log(receipt);
+      const provider = await new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = await new ethers.Contract(
+        Server_Address,
+        Server_ABI,
+        signer
+      );
+      let URI = "https://ipfs.io/ipfs/" + rootCid;
+      console.log(totalFunds.current);
+      let funds = BigInt(10);
+      const tx = await contract.createAd(URI, funds);
+      await tx.wait();
+      console.log(tx);
     }
   };
 
