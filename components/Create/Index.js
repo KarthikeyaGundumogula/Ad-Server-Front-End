@@ -31,10 +31,10 @@ export default function Create() {
 
   const [uploadStatus, setUploadStatus] = useState(false);
 
-  const clickReward = useRef();
-  const displayReward = useRef();
-  const totalFunds = useRef();
-  const AdName = useRef();
+  // const clickReward = useRef();
+  // const displayReward = useRef();
+  const [totalFunds, setTotalfunds] = useState();
+  const [AdName, setAdName] =useState();
 
   const [open, setOpen] = useState(false);
 
@@ -132,7 +132,7 @@ export default function Create() {
         signer
       );
       let URI = "https://ipfs.io/ipfs/" + rootCid;
-      console.log(totalFunds.current);
+     
       let funds = BigInt(10);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
@@ -148,17 +148,19 @@ export default function Create() {
     <div className={styles.mainContainer}>
       <div className={styles.dataContainer}>
         <div className={styles.formContainer}>
-          <form className={styles.form}>
+          <div className={styles.form}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <CssTextField
                 id="standard-basic"
                 variant="standard"
-                ref={AdName}
+                value={AdName}
+                onChange={(e) => {setAdName(e.target.value)}}
                 placeholder="name of your ad campaign"
                 type="text"
                 label="Ad Campaign Name"
                 required
                 fullWidth
+                autoFocus={true}
               />
               <Tooltip title="Name of your ad campaign">
                 <InfoOutlinedIcon />
@@ -199,12 +201,14 @@ export default function Create() {
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <CssTextField
                 id="standard-basic"
-                // label="Outlined"
                 variant="standard"
-                ref={totalFunds}
+                key="funds"
+                value={totalFunds}
+                onChange={(e) => {setTotalfunds(e.target.value)}}
                 placeholder="Total Fund for Campaign"
-                type="number"
+                type="text"
                 label="Total Funds (ETH)"
+                autoFocus={true}
                 required
                 fullWidth
               />
@@ -301,7 +305,7 @@ export default function Create() {
                 return <img alt="ad images" src={fileUrl} />;
               })}
             </div>
-          </form>
+          </div>
         </div>
       </div>
       <div className={styles.textContainer}>
