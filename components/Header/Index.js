@@ -13,7 +13,7 @@ import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 const Header = () => {
     const router = useRouter();
 
-    const getEthereumObject = () => window.ethereum;
+    // const getEthereumObject = () => window.ethereum;
 
     const { address } = useAccount()
 
