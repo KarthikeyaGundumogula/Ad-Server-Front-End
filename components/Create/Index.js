@@ -34,7 +34,7 @@ export default function Create() {
   // const clickReward = useRef();
   // const displayReward = useRef();
   const [totalFunds, setTotalfunds] = useState();
-  const [AdName, setAdName] =useState();
+  const [AdName, setAdName] = useState();
 
   const [open, setOpen] = useState(false);
 
@@ -125,15 +125,23 @@ export default function Create() {
 
       setFile(temp);
       const AdMetaData = {
-        name: AdName.current.value,
+        name: "Test1",
         Description: "this is a test",
-        totalFunds: "10 ETH",
+        totalFunds: totalFunds,
+        Address: ethAccount,
+        ImgLink: "https://ipfs.io/ipfs/" + rootCid + "/AdMetaData.json",
       };
-      const metadataCid = await client.put(JSON.stringify(AdMetaData), {
-        name: "Advertisement metadata",
+      const blob = new Blob([JSON.stringify(AdMetaData)], {
+        type: "application/json",
       });
-      await client.get(metadataCid);
-      console.log(metadataCid);
+
+      const MetaDataFile = [
+        new File(["contents-of-file-1"], "plain-utf8.txt"),
+        new File([blob], "AdMetaData.json"),
+      ];
+
+      const MetaDataCID = await client.put(MetaDataFile);
+      console.log(MetaDataCID);
       const provider = await new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = await new ethers.Contract(
@@ -141,9 +149,9 @@ export default function Create() {
         Server_ABI,
         signer
       );
-      let URI = "https://ipfs.io/ipfs/" + rootCid;
-     
-      let funds = BigInt(10);
+      let URI = "https://ipfs.io/ipfs/" + MetaDataCID + "/AdMetaData.json";
+
+      let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
       console.log(tx);
@@ -164,7 +172,9 @@ export default function Create() {
                 id="standard-basic"
                 variant="standard"
                 value={AdName}
-                onChange={(e) => {setAdName(e.target.value)}}
+                onChange={(e) => {
+                  setAdName(e.target.value);
+                }}
                 placeholder="name of your ad campaign"
                 type="text"
                 label="Ad Campaign Name"
@@ -214,7 +224,9 @@ export default function Create() {
                 variant="standard"
                 key="funds"
                 value={totalFunds}
-                onChange={(e) => {setTotalfunds(e.target.value)}}
+                onChange={(e) => {
+                  setTotalfunds(e.target.value);
+                }}
                 placeholder="Total Fund for Campaign"
                 type="text"
                 label="Total Funds (ETH)"
