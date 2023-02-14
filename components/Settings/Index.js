@@ -3,26 +3,27 @@ import TextField from '@mui/material/TextField';
 import { alpha, styled } from '@mui/material/styles';
 import styles from "./Index.module.css"
 
+const CssTextField = styled(TextField)({
+    '& label.Mui-focused': {
+        color: 'rgb(200,155,123)',
+    },
+    '& label': {
+        color: 'rgb(204,90,113)',
+    },
+    '& .MuiInput-underline:after': {
+        borderBottomColor: 'rgb(200,155,123)',
+    },
+    '& .MuiInput-underline:before': {
+        borderBottomColor: 'rgb(204,90,113)',
+    },
+});
+
 function Setting() {
     const [businessName, setBusinessName] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const CssTextField = styled(TextField)({
-        '& label.Mui-focused': {
-            color: 'rgb(200,155,123)',
-        },
-        '& label': {
-            color: 'rgb(204,90,113)',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'rgb(200,155,123)',
-        },
-        '& .MuiInput-underline:before': {
-            borderBottomColor: 'rgb(204,90,113)',
-        },
-    });
 
     return (
         <div className={styles.main}>

@@ -15,6 +15,24 @@ import { ethers } from "ethers";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
+const CssTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "rgb(200,155,123)",
+  },
+  "& label": {
+    color: "rgb(228,200,208)",
+  },
+  "& placeholder": {
+    color: "rgb(215,173,184)",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "rgb(200,155,123)",
+  },
+  "& .MuiInput-underline:before": {
+    borderBottomColor: "rgb(228,200,208)",
+  },
+});
+
 export default function Create() {
   const API_TOKEN =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEIyOTMzRDhDM2Y5MzkyRjI2MDNjZDZiQUFBZTczRjJhNjNCRjcxYjEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzU3OTk3MjYxOTEsIm5hbWUiOiJBZCBzZXJ2ZXIifQ.bGUQJrYJIA4ugMI_gPUQxHMLPTFuCs0xgkgFK-kBaXw";
@@ -32,9 +50,11 @@ export default function Create() {
   const [uploadStatus, setUploadStatus] = useState(false);
 
   // const clickReward = useRef();
-  // const displayReward = useRef();
+  const [adDescription, setAdDescription] = useState();
   const [totalFunds, setTotalfunds] = useState();
   const [AdName, setAdName] = useState();
+
+console.log(totalFunds, AdName, adDescription)
 
   const [open, setOpen] = useState(false);
 
@@ -69,24 +89,6 @@ export default function Create() {
 
     document.body.addEventListener("click", closePopUp);
   }, [ethAccount]);
-
-  const CssTextField = styled(TextField)({
-    "& label.Mui-focused": {
-      color: "rgb(200,155,123)",
-    },
-    "& label": {
-      color: "rgb(228,200,208)",
-    },
-    "& placeholder": {
-      color: "rgb(215,173,184)",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "rgb(200,155,123)",
-    },
-    "& .MuiInput-underline:before": {
-      borderBottomColor: "rgb(228,200,208)",
-    },
-  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -177,10 +179,9 @@ export default function Create() {
                 }}
                 placeholder="name of your ad campaign"
                 type="text"
-                label="Ad Campaign Name"
+                label="Name"
                 required
                 fullWidth
-                autoFocus={true}
               />
               <Tooltip title="Name of your ad campaign">
                 <InfoOutlinedIcon />
@@ -201,36 +202,35 @@ export default function Create() {
                                 <InfoOutlinedIcon />
                             </Tooltip>
 
-                        </div>
-                        <div style={{ display: "flex", alignItems: "flex-end" }}>
-                            <CssTextField
-                                id="standard-basic"
-                                // label="Outlined"
-                                variant="standard"
-                                ref={displayReward}
-                                placeholder="Reward you want to give for displaying Ad"
-                                type="number"
-                                label="Reward for Displaying Ad (ETH)"
-                                required
-                                fullWidth
-                            />
-                            <Tooltip title="Reward you want to give for displaying Ad">
-                                <InfoOutlinedIcon />
-                            </Tooltip>
-                        </div> */}
+                        </div>*/}
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <CssTextField
+                id="standard-basic"
+                // label="Outlined"
+                variant="standard"
+                value={adDescription}
+                onChange={(e) => { setAdDescription(e.target.value) }}
+                placeholder="Description about your ad campaign"
+                type="text"
+                label="Description"
+                required
+                fullWidth
+              />
+              <Tooltip title="Description of the advertisement">
+                <InfoOutlinedIcon />
+              </Tooltip>
+            </div>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <CssTextField
                 id="standard-basic"
                 variant="standard"
-                key="funds"
                 value={totalFunds}
                 onChange={(e) => {
                   setTotalfunds(e.target.value);
                 }}
                 placeholder="Total Fund for Campaign"
-                type="text"
+                type="number"
                 label="Total Funds (ETH)"
-                autoFocus={true}
                 required
                 fullWidth
               />

@@ -12,6 +12,24 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { useAccount } from "wagmi";
 
+const CssTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "rgb(200,155,123)",
+  },
+  "& label": {
+    color: "rgba(10, 16, 13, 0.7)",
+  },
+  "& placeholder": {
+    color: "rgb(215,173,184)",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "rgb(200,155,123)",
+  },
+  "& .MuiInput-underline:before": {
+    borderBottomColor: "rgba(10, 16, 13, 0.7)",
+  },
+});
+
 const Login = () => {
   const [open, setOpen] = useState(false);
 
@@ -43,24 +61,6 @@ const Login = () => {
     console.log(PublisherClickCharge);
     console.log(PublisherAdCharge);
   };
-
-  const CssTextField = styled(TextField)({
-    "& label.Mui-focused": {
-      color: "rgb(200,155,123)",
-    },
-    "& label": {
-      color: "rgba(10, 16, 13, 0.7)",
-    },
-    "& placeholder": {
-      color: "rgb(215,173,184)",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "rgb(200,155,123)",
-    },
-    "& .MuiInput-underline:before": {
-      borderBottomColor: "rgba(10, 16, 13, 0.7)",
-    },
-  });
 
   return (
     <div
@@ -96,7 +96,7 @@ const Login = () => {
               type="email"
               fullWidth
               variant="standard"
-              onChange={() => {
+              onChange={(event) => {
                 setPublisherEmail(event.target.value);
               }}
             />
@@ -104,11 +104,11 @@ const Login = () => {
               autoFocus
               margin="dense"
               id="name"
-              label="Charge for Click on Reward"
+              label="Charge for Click on Reward(in ETH)"
               type="number"
               fullWidth
               variant="standard"
-              onChange={() => {
+              onChange={(event) => {
                 setPublisherClickCharge(event.target.value);
               }}
             />
@@ -116,11 +116,11 @@ const Login = () => {
               autoFocus
               margin="dense"
               id="name"
-              label="Charge for displaying Advertisement"
+              label="Charge for displaying Advertisement(in ETH)"
               type="number"
               fullWidth
               variant="standard"
-              onChange={() => {
+              onChange={(event) => {
                 setPublisherAdCharge(event.target.value);
               }}
             />
@@ -132,7 +132,7 @@ const Login = () => {
               type="text"
               fullWidth
               variant="standard"
-              onChange={() => {
+              onChange={(event) => {
                 setPublisherSite(event.target.value);
               }}
             />
