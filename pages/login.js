@@ -11,6 +11,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { useAccount } from "wagmi";
+import { ethers } from "ethers";
 
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -41,6 +42,9 @@ const Login = () => {
   const [PublisherClickCharge, setPublisherClickCharge] = useState("");
   const [PublisherAdCharge, setPublisherAdCharge] = useState("");
 
+  const Server_ABI = process.env.NEXT_PUBLIC_Server_ABI;
+  const Server_Address = process.env.NEXT_PUBLIC_Server_ADDRESS;
+
   useEffect(() => {
     if (address != undefined) {
       setConnected(true);
@@ -54,12 +58,27 @@ const Login = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setOpen(false);
     console.log(PublisherSite);
     console.log(PublisherEmail);
     console.log(PublisherClickCharge);
     console.log(PublisherAdCharge);
+    console.log(Server_Address);
+    console.log(Server_ABI);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(Server_Address, Server_ABI, signer);
+    const tx = await contract.createPublisher(
+      PublisherClickCharge,
+      PublisherAdCharge,
+      PublisherSite
+    );
+    const receipt = await tx.wait();
+    setProcessing(false);
+    if (receipt) {
+      alert("Publisher Created");
+    }
   };
 
   return (

@@ -53,8 +53,7 @@ export default function Create() {
   const [adDescription, setAdDescription] = useState();
   const [totalFunds, setTotalfunds] = useState();
   const [AdName, setAdName] = useState();
-
-console.log(totalFunds, AdName, adDescription)
+  const [Processed, setProcessed] = useState(false);
 
   const [open, setOpen] = useState(false);
 
@@ -68,7 +67,6 @@ console.log(totalFunds, AdName, adDescription)
 
   useEffect(() => {
     const warning = document.getElementsByClassName("warning");
-    console.log(Server_Address);
     const getUser = async () => {
       const ethereum = getEthereumObject();
       const accounts = await ethereum.request({ method: "eth_accounts" });
@@ -111,9 +109,7 @@ console.log(totalFunds, AdName, adDescription)
     if (filename.length > 0) {
       setUploadStatus(true);
 
-      const rootCid = await client.put(fileInput.files, {
-        name: "Advertisement banner",
-      });
+      const rootCid = await client.put(fileInput.files);
 
       const res = await client.get(rootCid);
       const files = await res.files();
@@ -127,11 +123,11 @@ console.log(totalFunds, AdName, adDescription)
 
       setFile(temp);
       const AdMetaData = {
-        name: "Test1",
-        Description: "this is a test",
+        name: AdName,
+        Description: adDescription,
         totalFunds: totalFunds,
         Address: ethAccount,
-        ImgLink: "https://ipfs.io/ipfs/" + rootCid + "/AdMetaData.json",
+        ImgLink: "https://ipfs.io/ipfs/" + rootCid + "/" + filename[0],
       };
       const blob = new Blob([JSON.stringify(AdMetaData)], {
         type: "application/json",
@@ -156,7 +152,9 @@ console.log(totalFunds, AdName, adDescription)
       let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
-      console.log(tx);
+      if (tx) {
+        console.log(Processed);
+      }
     }
   };
 
@@ -209,7 +207,9 @@ console.log(totalFunds, AdName, adDescription)
                 // label="Outlined"
                 variant="standard"
                 value={adDescription}
-                onChange={(e) => { setAdDescription(e.target.value) }}
+                onChange={(e) => {
+                  setAdDescription(e.target.value);
+                }}
                 placeholder="Description about your ad campaign"
                 type="text"
                 label="Description"
