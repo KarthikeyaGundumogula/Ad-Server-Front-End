@@ -63,6 +63,10 @@ const AdDetails = (props) => {
         <div id="background" className={styles.popUp}>
             <div className={styles.popUpInner}>
                 <CloseRoundedIcon className={styles.close} onClick={onClickHandler} />
+                <div className={styles.control}>
+                    <button className={styles.button} type="button"><StopCircleOutlinedIcon />   Stop</button>
+                    <button className={styles.button} type="button"><PlayArrowOutlinedIcon />   Start</button>
+                </div>
                 <div className={styles.fundsDisplay}>
                     <div>
                         <div>
@@ -79,14 +83,10 @@ const AdDetails = (props) => {
                         <button className={styles.button} type="button">Swap AdToken</button>
                     </div>
                 </div>
-                <div className={styles.control}>
-                    <button className={styles.button} type="button"><StopCircleOutlinedIcon />   Stop</button>
-                    <button className={styles.button} type="button"><PlayArrowOutlinedIcon />   Start</button>
-                </div>
                 <div className={styles.publisher}>
                     <div>
-                        <button className={styles.button} type="button"><StopCircleOutlinedIcon />   Stop</button>
-                        <button className={styles.button} type="button"><PlayArrowOutlinedIcon />   Start</button>
+                        <button className={styles.button} type="button"><StopCircleOutlinedIcon />  Subscribe</button>
+                        <button className={styles.button} type="button"><PlayArrowOutlinedIcon />   UnSubscribe</button>
                     </div>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
                         <InputLabel id="demo-simple-select-standard-label">Publishers</InputLabel>
