@@ -9,29 +9,33 @@
 
 .Dashboard {
     min-height: 100vh;
-    display: grid;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
     grid-template-columns: repeat(3, 1fr);
+    grid-gap: 26px;
     gap: 26px;
+    padding: 0px 25px;
     place-content: baseline;
-    justify-items: center;
     padding-top: 50px;
 }
 
 .datacontainer {
-    width: 350px;
+    width: 320px;
     height: 250px;
     position: relative;
     border-radius: 12px;
     cursor: pointer;
 }
 
-.datacontainer:hover{
+.datacontainer:hover {
     opacity: 0.7;
 }
 
 .datacontainer>img {
     object-fit: cover;
-    width: 350px;
+    width: 320px;
     height: 250px;
     border-radius: 12px;
 }

@@ -72,10 +72,5 @@
                 <MenuItem value={30}>Thirty</MenuItem>
             </Select>
         </FormControl>
-        {/* <Lottie
-                        options={defaultOptions}
-                        height={200}
-                        width={300}
-                    /> */}
     </div>
 </div>

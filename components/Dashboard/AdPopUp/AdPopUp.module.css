@@ -1,0 +1,149 @@
+.popUp {
+    position: fixed;
+    min-height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    display: flex;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.popUpInner {
+    background: white;
+    width: 850px;
+    height: 600px;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.fundsDisplay {
+    height: 200px;
+    width: 100%;
+    background: #5D3244;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+    justify-content: space-around;
+}
+
+.fundsDisplay>div {
+    display: flex;
+    gap: 20px;
+}
+
+.fundsDisplay>div div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    gap: 15px;
+    font-weight: bold;
+}
+
+.fundsDisplay>div div:first-child {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.fundsDisplay>div:last-child {
+    display: grid;
+    gap: 15px;
+}
+
+.fundsDisplay h1 {
+    font-size: 100px;
+    margin: 0;
+}
+
+.control {
+
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+
+}
+
+.publisher {
+    background: #5D3244;
+    border-radius: 10px;
+    display: flex;
+    gap: 100px;
+    align-items: center;
+    padding: 0 74px;
+    height: -webkit-fill-available;
+}
+
+.publisher>div:first-child {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.button {
+    width: 165px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: medium;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    outline: none;
+}
+
+.button {
+
+    background: rgb(118, 65, 86);
+    background: linear-gradient(153deg, rgba(118, 65, 86, 0.8939950980392157) 0%, rgba(98, 51, 71, 0.9612219887955182) 100%);
+    box-shadow: 5px 7px 5px 0 rgb(66 36 48);
+    border: none;
+    z-index: 1;
+}
+
+.button:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #CC5A71;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    color: #fff;
+    box-shadow: 5px 7px 9px 0 rgb(66 36 48);
+
+}
+
+.button:hover:after {
+    left: 0;
+    width: 100%;
+}
+
+.button:active {
+    top: 2px;
+}
