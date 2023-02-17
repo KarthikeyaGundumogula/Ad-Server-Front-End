@@ -30,6 +30,6 @@ export default async function handler(req, res) {
   }
 }`;
   let resus2 = await axios.post(SUBGRAPH, { query });
-  console.log(resus2.data.data.ads);
+  console.log(resus2.data.data.ads)
   res.send(resus2.data.data.ads[0].AdData);
 }
