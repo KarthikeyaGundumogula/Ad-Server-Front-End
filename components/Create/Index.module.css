@@ -57,6 +57,12 @@
     gap: 10px;
 }
 
+.imageContainer img {
+    height: 250px;
+    width: 400px;
+    object-fit: cover;
+}
+
 .button {
     width: 155px;
     height: 40px;
@@ -224,11 +230,11 @@
 }
 
 .publisherData>div div:first-child {
-   font-size: 24px;
-   font-weight: 450;
+    font-size: 24px;
+    font-weight: 450;
 }
 
 .publisherData>div div:last-child {
     font-size: 20px;
     font-weight: 350;
- }
+}

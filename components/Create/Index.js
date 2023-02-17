@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
+import CustomizedSnackbars from "../snackbar";
 
 import { ethers } from "ethers";
 
@@ -157,6 +158,7 @@ export default function Create() {
       await tx.wait();
       if (tx) {
         console.log(Processed);
+        setProcessed(true)
       }
     }
   };
@@ -341,6 +343,7 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
+      <CustomizedSnackbars open={Processed} closeHandle={setProcessed}/>
     </div >
   );
 }

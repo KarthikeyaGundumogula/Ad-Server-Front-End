@@ -226,9 +226,9 @@ const Login = () => {
           <div className={styles.publisherData}>
             <div>
               <div>Website</div>
-              <Link href={PublisherSite}>
+              <a target="_blank" href={PublisherSite} rel="noopener noreferrer">
                 <div>{PublisherSite}</div>
-              </Link>
+              </a>
             </div>
             <div>
               <div>Click Charge (in ETH)</div>
