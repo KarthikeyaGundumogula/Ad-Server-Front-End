@@ -16,19 +16,19 @@ import { ethers } from "ethers";
 
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
-    color: "rgb(200,155,123)",
+    color: "rgb(130, 103, 83)",
   },
   "& label": {
-    color: "rgba(10, 16, 13, 0.7)",
+    color: "rgba(10, 16, 13, 1)",
   },
   "& placeholder": {
     color: "rgb(215,173,184)",
   },
   "& .MuiInput-underline:after": {
-    borderBottomColor: "rgb(200,155,123)",
+    borderBottomColor: "rgb(130, 103, 83)",
   },
   "& .MuiInput-underline:before": {
-    borderBottomColor: "rgba(10, 16, 13, 0.7)",
+    borderBottomColor: "rgba(10, 16, 13, 1)",
   },
 });
 
@@ -60,17 +60,17 @@ const Login = () => {
 
     async function getPublisher() {
       const query = `{
-  publishers(first: 5 where:{Publisher:"${address}"}) {
-    PublisherId
-    TotalEarnings
-    TotalClicks
-    PublisherSite
-    TotalViews
-    ViewReward
-    ClickReward
-    Advertisers
-  }
-}`;
+          publishers(first: 5 where:{Publisher:"${address}"}) {
+            PublisherId
+            TotalEarnings
+            TotalClicks
+            PublisherSite
+            TotalViews
+            ViewReward
+            ClickReward
+            Advertisers
+          }
+      }`;
       const response = await axios.post(SUBGRAPH, { query: query });
       const data = response.data.data.publishers[0];
       if (data != undefined) {
@@ -86,8 +86,10 @@ const Login = () => {
         setIsPublisher(false);
       }
     }
-    const publishers = getPublisher();
+
+    getPublisher();
   }, [address]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -140,7 +142,7 @@ const Login = () => {
               To Become the Publisher, enter the required details. We will send
               updates occasionally.
             </DialogContentText>
-            <CssTextField
+            {/* <CssTextField
               autoFocus
               margin="dense"
               id="name"
@@ -151,7 +153,7 @@ const Login = () => {
               onChange={(event) => {
                 setPublisherEmail(event.target.value);
               }}
-            />
+            /> */}
             <CssTextField
               autoFocus
               margin="dense"
@@ -218,6 +220,13 @@ const Login = () => {
             Become Ad Publisher
           </button>
         )}
+        {isPublisher ?
+          <div>
+            
+          </div>
+          : <></>
+        }
+
       </div>
     </div>
   );

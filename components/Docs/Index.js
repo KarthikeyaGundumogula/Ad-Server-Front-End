@@ -18,7 +18,7 @@ const CssTextField = styled(TextField)({
     },
 });
 
-function Setting() {
+function Docs() {
     const [businessName, setBusinessName] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -70,4 +70,4 @@ function Setting() {
 
     );
 }
-export default Setting;
+export default Docs;
