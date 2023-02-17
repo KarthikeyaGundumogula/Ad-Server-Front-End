@@ -9,6 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
 
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
@@ -33,14 +34,19 @@ const CssTextField = styled(TextField)({
 
 const Login = () => {
   const [open, setOpen] = useState(false);
+  const SUBGRAPH = process.env.NEXT_PUBLIC_SubGraph_URL;
 
   const [connected, setConnected] = useState(false);
+  const [isPublisher, setIsPublisher] = useState(false);
 
   const { address } = useAccount();
   const [PublisherSite, setPublisherSite] = useState("");
-  const [PublisherEmail, setPublisherEmail] = useState("");
   const [PublisherClickCharge, setPublisherClickCharge] = useState("");
   const [PublisherAdCharge, setPublisherAdCharge] = useState("");
+  const [PublisherEarnings, setPublisherEarnings] = useState("");
+  const [PublisherTotalViews, setPublisherTotalViews] = useState("");
+  const [PublisherTotalClicks, setPublisherTotalClicks] = useState("");
+  const [PublishersAds, setPublishersAds] = useState([]);
 
   const Server_ABI = process.env.NEXT_PUBLIC_Server_ABI;
   const Server_Address = process.env.NEXT_PUBLIC_Server_ADDRESS;
@@ -48,12 +54,40 @@ const Login = () => {
   useEffect(() => {
     if (address != undefined) {
       setConnected(true);
-      console.log(address);
     } else {
       setConnected(false);
     }
-  }, [address]);
 
+    async function getPublisher() {
+      const query = `{
+  publishers(first: 5 where:{Publisher:"${address}"}) {
+    PublisherId
+    TotalEarnings
+    TotalClicks
+    PublisherSite
+    TotalViews
+    ViewReward
+    ClickReward
+    Advertisers
+  }
+}`;
+      const response = await axios.post(SUBGRAPH, { query: query });
+      const data = response.data.data.publishers[0];
+      if (data != undefined) {
+        setIsPublisher(true);
+        setPublisherEarnings(data.TotalEarnings);
+        setPublisherTotalViews(data.TotalViews);
+        setPublisherTotalClicks(data.TotalClicks);
+        setPublisherSite(data.PublisherSite);
+        setPublisherClickCharge(data.ClickReward);
+        setPublisherAdCharge(data.ViewReward);
+        setPublishersAds(data.Advertisers);
+      } else {
+        setIsPublisher(false);
+      }
+    }
+    const publishers = getPublisher();
+  }, [address]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -64,24 +98,19 @@ const Login = () => {
 
   const handleClose = async () => {
     setOpen(false);
-    console.log(PublisherSite);
-    console.log(PublisherEmail);
-    console.log(PublisherClickCharge);
-    console.log(PublisherAdCharge);
-    console.log(Server_Address);
-    console.log(Server_ABI);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(Server_Address, Server_ABI, signer);
-    const tx = await contract.createPublisher(
-      PublisherClickCharge,
-      PublisherAdCharge,
-      PublisherSite
-    );
-    const receipt = await tx.wait();
-    setProcessing(false);
-    if (receipt) {
-      alert("Publisher Created");
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(Server_Address, Server_ABI, signer);
+      const tx = await contract.createPublisher(
+        PublisherClickCharge,
+        PublisherAdCharge,
+        PublisherSite
+      );
+      const receipt = await tx.wait();
+      setProcessing(false);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -182,12 +211,12 @@ const Login = () => {
           <div className={styles.info}>Connect your wallet to login</div>
         )}
         <ConnectButton />
-        {connected ? (
+        {isPublisher ? (
+          <></>
+        ) : (
           <button className={styles.button2} onClick={handleClickOpen}>
             Become Ad Publisher
           </button>
-        ) : (
-          <></>
         )}
       </div>
     </div>
