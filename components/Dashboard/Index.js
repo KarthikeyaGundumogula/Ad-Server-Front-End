@@ -133,6 +133,14 @@ export default function Dashboard() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <div className={styles.totalFunds}>
+        <div>
+          <h1 className={styles.h1}>Total Funds</h1>
+          <h3 className={styles.h3}>0</h3>
+          <h5 className={styles.h5}>ETH</h5>
+        </div>
+        <button className={styles.button} type="button">Get AdToken</button>
+      </div>
       {adsData.map((data, index) => {
         return (
           <div className={styles.datacontainer} key={index} onClick={() => {

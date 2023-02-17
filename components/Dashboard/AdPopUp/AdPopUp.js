@@ -99,6 +99,7 @@ const AdDetails = (props) => {
       let obj = {};
       obj["publisherId"] = props.publisher[i].PublisherId;
       obj["publisherSite"] = props.publisher[i].PublisherSite;
+      obj["publisherAddress"] = props.publisher[i].Publisher;
       tempChoicesArray.push(obj);
     }
     setPublisherData(tempChoicesArray);
@@ -112,6 +113,7 @@ const AdDetails = (props) => {
       for (let i = 0; i < publisherData.length; i++) {
         if (publisherData[i].publisherId == id) {
           obj["adPublisherId"] = id;
+          obj["adPublisherAddress"] = publisherData[i].publisherAddress;
           obj["adPublisherSite"] = publisherData[i].publisherSite;
           console.log(obj)
         }
@@ -136,70 +138,67 @@ const AdDetails = (props) => {
     <div id="background" className={styles.popUp}>
       <div className={styles.popUpInner}>
         <CloseRoundedIcon className={styles.close} onClick={onClickHandler} />
-        <div className={styles.control}>
-          <button className={styles.button} type="button" onClick={() => { props.setRunning(false) }}>
-            <StopCircleOutlinedIcon /> Stop
-          </button>
-          <button className={styles.button} type="button" onClick={() => { props.setRunning(true) }}>
-            <PlayArrowOutlinedIcon /> Start
-          </button>
+        <div className={styles.adImage}>
+          <img src={props.data.ImgLink} alt="ad image" />
+          <div>{props.data.name}</div>
+          <div>{props.data.Description}</div>
         </div>
-        <div className={styles.fundsDisplay}>
-          <div>
+        <div>
+          <div className={styles.control}>
+            <button className={styles.button} type="button" onClick={() => { props.setRunning(false) }}>
+              <StopCircleOutlinedIcon /> Stop
+            </button>
+            <button className={styles.button} type="button" onClick={() => { props.setRunning(true) }}>
+              <PlayArrowOutlinedIcon /> Start
+            </button>
+          </div>
+          <div className={styles.fundsDisplay}>
             <div>
-              Total <br></br>
-              Funds
+              <div>Total Funds </div>
+              <h3>{props.data.totalFunds} ETH</h3>
             </div>
             <div>
-              <h1>0</h1>
-              <div>ETH</div>
+              <div>Current Funds</div>
+              <h3>{props.data.CurrentFunds} ETH</h3>
+              <div>
+                <button className={styles.button} type="button">Buy AdToken</button>
+                <button className={styles.button} type="button">Swap AdToken</button>
+              </div>
             </div>
           </div>
-          <div>
-            <button
-              className={styles.button}
-              type="button"
-              onClick={handleGetAdTokens}
-            >
-              Get AdTokens
-            </button>
+          <div className={styles.publisher}>
+            <div>
+              <button className={styles.button} type="button">
+                <StopCircleOutlinedIcon /> Subscribe
+              </button>
+              <button className={styles.button} type="button">
+                <PlayArrowOutlinedIcon /> UnSubscribe
+              </button>
+            </div>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Publishers
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={campaign}
+                onChange={handleChange}
+                input={<BootstrapInput />}
+                label="Publisher"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {adsPublisherData.map((data, index) => {
+                  return (
+                    <MenuItem value={data.adPublisherAddress} key={index}>{data.adPublisherSite}</MenuItem>
+                  )
+                })
+                }
+              </Select>
+            </FormControl>
           </div>
-        </div>
-        <div className={styles.publisher}>
-          <div>
-            <button className={styles.button} type="button">
-              <StopCircleOutlinedIcon /> Subscribe
-            </button>
-            <button className={styles.button} type="button">
-              <PlayArrowOutlinedIcon /> UnSubscribe
-            </button>
-          </div>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Publishers
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={campaign}
-              onChange={handleChange}
-              input={<BootstrapInput />}
-              label="Publisher"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {adsPublisherData.map((data, index) => {
-                return (
-                  <MenuItem value={data.adPublisherId} key={index}>{data.adPublisherSite}</MenuItem>
-                )
-              })
-              }
-              {/* <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem> */}
-            </Select>
-          </FormControl>
         </div>
       </div>
     </div>
