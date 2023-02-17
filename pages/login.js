@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import Link from "next/link";
 
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
@@ -204,6 +205,7 @@ const Login = () => {
           justifyContent: "flex-start",
           flexDirection: "column",
           gap: "24px",
+          width: "100%",
         }}
       >
         <div className={styles.heading}>Welcome to AdChain</div>
@@ -221,8 +223,37 @@ const Login = () => {
           </button>
         )}
         {isPublisher ?
-          <div>
-            
+          <div className={styles.publisherData}>
+            <div>
+              <div>Website</div>
+              <Link href={PublisherSite}>
+                <div>{PublisherSite}</div>
+              </Link>
+            </div>
+            <div>
+              <div>Click Charge (in ETH)</div>
+              <div>{PublisherClickCharge}</div>
+            </div>
+            <div>
+              <div>Display Charge (in ETH)</div>
+              <div>{PublisherAdCharge}</div>
+            </div>
+            <div>
+              <div>Your Earnings (in ETH)</div>
+              <div>{PublisherEarnings}</div>
+            </div>
+            <div>
+              <div>Total Views</div>
+              <div>{PublisherTotalViews}</div>
+            </div>
+            <div>
+              <div>Total Clicks</div>
+              <div>{PublisherTotalClicks}</div>
+            </div>
+            {/* <div>
+              <div> Advertisement</div>
+              <div>{PublishersAds}</div>
+            </div> */}
           </div>
           : <></>
         }
