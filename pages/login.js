@@ -58,6 +58,10 @@ const Login = () => {
     setOpen(true);
   };
 
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   const handleClose = async () => {
     setOpen(false);
     console.log(PublisherSite);
@@ -157,7 +161,7 @@ const Login = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleCancel}>Cancel</Button>
             <Button onClick={handleClose}>Proceed</Button>
           </DialogActions>
         </Dialog>

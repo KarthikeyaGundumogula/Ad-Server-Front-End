@@ -127,7 +127,7 @@ export default function Create() {
         Description: adDescription,
         totalFunds: totalFunds,
         Address: ethAccount,
-        ImgLink: "https://ipfs.io/ipfs/" + rootCid + "/" + filename[0],
+        ImgLink: "https://" + rootCid + ".ipfs.w3s.link" + "/" + filename[0],
       };
       const blob = new Blob([JSON.stringify(AdMetaData)], {
         type: "application/json",
@@ -147,7 +147,8 @@ export default function Create() {
         Server_ABI,
         signer
       );
-      let URI = "https://ipfs.io/ipfs/" + MetaDataCID + "/AdMetaData.json";
+      let URI =
+        "https://" + MetaDataCID + ".ipfs.w3s.link" + "/AdMetaData.json";
 
       let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
