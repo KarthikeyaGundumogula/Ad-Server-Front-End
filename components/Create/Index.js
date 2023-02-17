@@ -61,6 +61,8 @@ export default function Create() {
 
   const [ethAccount, setEthAccount] = useState(null);
 
+  console.log(ethAccount)
+
   const handleClose = () => {
     setOpen(false);
   };

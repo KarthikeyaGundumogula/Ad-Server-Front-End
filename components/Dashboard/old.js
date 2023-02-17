@@ -1,3 +1,25 @@
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+    "label + &": {
+        color: "#C89B7B",
+    },
+    "& .MuiInputBase-input": {
+        position: "relative",
+        borderBottom: "1px solid #ced4da",
+        borderColor: "#C89B7B",
+        fontSize: 20,
+        padding: "12px 12px 2px 12px",
+        color: "#C89B7B",
+        // Use the system font instead of the default Roboto font.
+        "&:focus": {
+            borderColor: "#C89B7B",
+            color: "#C89B7B",
+        },
+    },
+}));
+
+
+
+
 <div className={styles.mainContainer}>
     <div className={styles.fundsDisplay}>
         <div>
