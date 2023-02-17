@@ -265,15 +265,18 @@ export default function Create() {
               ) : (
                 <CircularProgress color="inherit" />
               )}
-              {ethAccount != null ? (
-                <button
-                  className={styles.button}
-                  type="button"
-                  onClick={handleUpload}
-                >
-                  Submit
-                </button>
-              ) : (
+              {ethAccount != null ?
+                (uploadStatus != true
+                  ? <button
+                    className={styles.button}
+                    type="button"
+                    onClick={handleUpload}
+                  >
+                    Submit
+                  </button>
+                  : <div></div>
+                )
+                :
                 <button
                   className={styles.button}
                   type="button"
@@ -282,7 +285,7 @@ export default function Create() {
                 >
                   Submit
                 </button>
-              )}
+              }
             </div>
             {open ? (
               <Alert severity="warning" className="warning" id="alert">
@@ -336,6 +339,6 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
-    </div>
+    </div >
   );
 }

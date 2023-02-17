@@ -11,10 +11,10 @@
 }
 
 .popUpInner {
-    background: white;
+    background: #5D3244;
     width: 850px;
-    height: 600px;
-    padding: 15px;
+    height: 500px;
+    padding: 30px 15px;
     border-radius: 15px;
     position: relative;
     display: flex;
@@ -69,7 +69,7 @@
 }
 
 .control {
-
+    justify-content: center;
     display: flex;
     gap: 20px;
 
@@ -82,7 +82,7 @@
     gap: 100px;
     align-items: center;
     padding: 0 74px;
-    height: -webkit-fill-available;
+    height: 40%;
 }
 
 .publisher>div:first-child {

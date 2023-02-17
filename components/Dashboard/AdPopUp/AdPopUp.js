@@ -42,6 +42,8 @@ const AdDetails = (props) => {
   const [connected, setConnected] = useState(false);
 
   const { account } = useAccount();
+    const [running , setRunning] = usestate(false)
+    const [campaign, setCampaign] = useState()
 
   useEffect(() => {
     const closePopUp = (e) => {
