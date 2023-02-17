@@ -1,83 +1,125 @@
 import styles from "./Index.module.css";
 import { styled } from "@mui/material/styles";
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-
-// import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
-// import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import InputBase from "@mui/material/InputBase";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import AdDetails from "./AdPopUp/AdPopUp";
+import { AddShoppingCart, TroubleshootOutlined } from "@mui/icons-material";
 
 export default function Dashboard() {
+
   const [campaign, setCampaign] = useState();
   const [selected, setSelected] = useState(false);
+  const [running, setRunning] = useState(false)
+  const [ads, setAds] = useState([])
+  const [publisher, setPublisher] = useState([])
+  const [adsData, setAdsData] = useState([])
+  const [selectedAd, setSelectedAd] = useState()
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (event) => {
     setCampaign(event.target.value);
   };
 
-  // useEffect(() => {
-  //     fetch('https://api.thegraph.com/subgraphs/name/karthikeyagundumogula/ad-serverv2', {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({
-  //             query: `
-  //                 {
-  //                     ad {
-  //                         AdData
-  //                         AdId
-  //                         Advertiser
-  //                         CurrentFunds
-  //                         Publishers
-  //                         TotalClicks
-  //                         TotalFunds
-  //                         TotalViews
-  //                         id
-  //                         isRunning
-  //                     }
-  //                     publishers {
-  //                         id
-  //                         PublisherId
-  //                         Publisher
-  //                         TotalEarnings
-  //                         Advertisers
-  //                         ClickReward
-  //                         ViewReward
-  //                         TotalViews
-  //                         TotalClicks
-  //                         PublisherSite
-  //                     }
-  //                   }
-  //     `
-  //         })
-  //     })
-  //         .then(res => res.json())
-  //         .then(res => console.log(res.data));
-  // }, [])
+  const fetchdata = async () => {
+    const response = await fetch('https://api.thegraph.com/subgraphs/name/karthikeyagundumogula/ad-serverv2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `
+                {
+                    ads {
+                        AdData
+                        AdId
+                        Advertiser
+                        CurrentFunds
+                        Publishers
+                        TotalClicks
+                        TotalFunds
+                        TotalViews
+                        id
+                        isRunning
+                    }
+                    publishers {
+                        id
+                        PublisherId
+                        Publisher
+                        TotalEarnings
+                        Advertisers
+                        ClickReward
+                        ViewReward
+                        TotalViews
+                        TotalClicks
+                        PublisherSite
+                    }
+                  }
+    `
+      })
+    })
+    const result = await response.json()
+    setAds(result.data.ads)
+    setPublisher(result.data.publishers)
+    console.log(result)
 
-  const BootstrapInput = styled(InputBase)(({ theme }) => ({
-    "label + &": {
-      color: "#C89B7B",
-    },
-    "& .MuiInputBase-input": {
-      position: "relative",
-      borderBottom: "1px solid #ced4da",
-      borderColor: "#C89B7B",
-      fontSize: 20,
-      padding: "12px 12px 2px 12px",
-      color: "#C89B7B",
-      // Use the system font instead of the default Roboto font.
-      "&:focus": {
-        borderColor: "#C89B7B",
-        color: "#C89B7B",
-      },
-    },
-  }));
+  }
+
+  const forloop = useCallback(async () => {
+
+    setLoading(true)
+    const tempChoicesArray = [];
+    console.log("he")
+
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    for (let i = 0; i < ads.length; i++) {
+      let obj = {}
+      console.log("sent...")
+      const newresponse = await fetch(ads[i].AdData, requestOptions)
+      const adsresult = await newresponse.json()
+      console.log(adsresult)
+      console.log(ads[i])
+      obj = { ...adsresult, ...ads[i] }
+      tempChoicesArray.push(obj);
+
+      setLoading(false)
+    }
+    setAdsData(tempChoicesArray);
+
+  }, [ads, adsData])
+
+
+  console.log(loading)
+
+  useEffect(() => {
+
+    fetchdata()
+    console.log("loading...")
+
+  }, [])
+
+  useEffect(() => {
+    forloop()
+  }, [ads])
+
+  console.log(adsData)
+
+  const selectedImageHandler = useCallback((idx) => {
+    setSelectedAd(idx)
+  }, [selectedAd, selected])
+
+  const currentImageHandler = (index) => {
+
+    setSelected(!selected)
+    selectedImageHandler(index)
+  }
+
+  console.log(selectedAd)
 
   const selectedHandler = (props) => {
     setSelected(props);
@@ -85,47 +127,36 @@ export default function Dashboard() {
 
   return (
     <div className={styles.Dashboard}>
-      <div className={styles.datacontainer} onClick={() => setSelected(true)}>
-        <span className={`${styles.stoppedbadge} ${styles.pulsate}`} />
-        <img
-          src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="ad banner"
-        />
-        <div>Ad Name</div>
-      </div>
-      <div className={styles.datacontainer} onClick={() => setSelected(true)}>
-        <span className={`${styles.stoppedbadge} ${styles.pulsate}`} />
-        <img
-          src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="ad banner"
-        />
-        <div>Ad Name</div>
-      </div>
-      <div className={styles.datacontainer} onClick={() => setSelected(true)}>
-        <span className={`${styles.runningbadge} ${styles.runningpulsate}`} />
-        <img
-          src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="ad banner"
-        />
-        <div>Ad Name</div>
-      </div>
-      <div className={styles.datacontainer} onClick={() => setSelected(true)}>
-        <span className={`${styles.runningbadge} ${styles.runningpulsate}`} />
-        <img
-          src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="ad banner"
-        />
-        <div>Ad Name</div>
-      </div>
-      <div className={styles.datacontainer} onClick={() => setSelected(true)}>
-        <img
-          src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          alt="ad banner"
-        />
-        <div>Ad Name</div>
-      </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {adsData.map((data, index) => {
+        return (
+          <div className={styles.datacontainer} key={index} onClick={() => {
+            setSelected(true)
+            currentImageHandler(index)
+          }
+          }>
+            {data.isRunning
+              ? <span className={`${styles.runningbadge} ${styles.runningpulsate}`} />
+              : <span className={`${styles.stoppedbadge} ${styles.pulsate}`} />
+            }
+            <img
+              src={data.ImgLink}
+              alt="ad banner"
+            />
+            <div className={styles.adDescription}>
+              <div>{data.name}</div>
+              <div>{data.Description}</div>
+            </div>
+          </div>
+        )
+      })}
       {selected == true ? (
-        <AdDetails closeHandler={selectedHandler} className={styles.popUp} />
+        <AdDetails closeHandler={selectedHandler} data={adsData[selectedAd]} className={styles.popUp} setRunning={setRunning} publisher={publisher} />
       ) : (
         <div></div>
       )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import styles from "./AdPopUp.module.css";
 import StopCircleOutlinedIcon from "@mui/icons-material/StopCircleOutlined";
@@ -35,13 +35,18 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const AdDetails = (props) => {
-  const [campaign, setCampaign] = useState();
+  console.log(props)
+
+  const [campaign, setCampaign] = useState("");
   const [TotalFunds, setTotalFunds] = useState();
   const [currentFunds, setCurrentFunds] = useState();
   const [address, setAddress] = useState();
   const [connected, setConnected] = useState(false);
+  const [publisherData, setPublisherData] = useState([])
+  const [adsPublisherData, setAdsPublisherData] = useState([])
 
   const { account } = useAccount();
+  const [running, setRunning] = useState(false)
 
   useEffect(() => {
     const closePopUp = (e) => {
@@ -88,15 +93,54 @@ const AdDetails = (props) => {
     }
   };
 
+  const initilizeloop = useCallback(() => {
+    const tempChoicesArray = [];
+    for (let i = 0; i < props.publisher.length; i++) {
+      let obj = {};
+      obj["publisherId"] = props.publisher[i].PublisherId;
+      obj["publisherSite"] = props.publisher[i].PublisherSite;
+      tempChoicesArray.push(obj);
+    }
+    setPublisherData(tempChoicesArray);
+  }, [props]);
+
+  const initilizeloop2 = useCallback(() => {
+    const tempChoicesArray = [];
+    for (let i = 0; i < props.data.Publishers.length; i++) {
+      let obj = {};
+      let id = props.data.Publishers[i]
+      for (let i = 0; i < publisherData.length; i++) {
+        if (publisherData[i].publisherId == id) {
+          obj["adPublisherId"] = id;
+          obj["adPublisherSite"] = publisherData[i].publisherSite;
+          console.log(obj)
+        }
+      }
+      console.log(obj)
+      tempChoicesArray.push(obj);
+    }
+    setAdsPublisherData(tempChoicesArray);
+  }, [props, publisherData]);
+
+  useEffect(() => {
+    initilizeloop();
+  }, [props])
+
+  useEffect(() => {
+    initilizeloop2();
+  }, [props, publisherData])
+
+  console.log(adsPublisherData)
+
   return (
     <div id="background" className={styles.popUp}>
       <div className={styles.popUpInner}>
         <CloseRoundedIcon className={styles.close} onClick={onClickHandler} />
         <div className={styles.control}>
-          <button className={styles.button} type="button">
+          <button className={styles.button} type="button" onClick={() => { props.setRunning(false) }}>
             <StopCircleOutlinedIcon /> Stop
           </button>
-          <button className={styles.button} type="button">
+          <button className={styles.button} type="button" onClick={() => { props.setRunning(true) }}>
             <PlayArrowOutlinedIcon /> Start
           </button>
         </div>
@@ -145,9 +189,15 @@ const AdDetails = (props) => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
+              {adsPublisherData.map((data, index) => {
+                return (
+                  <MenuItem value={data.adPublisherId} key={index}>{data.adPublisherSite}</MenuItem>
+                )
+              })
+              }
+              {/* <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem> */}
             </Select>
           </FormControl>
         </div>
