@@ -60,7 +60,7 @@ const Login = () => {
 
     async function getPublisher() {
       const query = `{
-  publishers(first: 5 where:{Publisher:"${address}"}) {
+  publishers( where:{Publisher:"${address}"}) {
     PublisherId
     TotalEarnings
     TotalClicks

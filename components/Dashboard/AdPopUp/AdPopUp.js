@@ -73,26 +73,6 @@ const AdDetails = (props) => {
     setCampaign(event.target.value);
   };
 
-  const handleGetAdTokens = async () => {
-    try {
-      const provider = await new ethers.providers.Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
-      const server = await new ethers.Contract(
-        Contract_Address,
-        Contract_ABI,
-        signer
-      );
-      const tx = await server.getAdTokens(
-        address,
-        ethers.utils.parseEther("100")
-      );
-      await tx;
-      console.log(tx);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const initilizeloop = useCallback(() => {
     const tempChoicesArray = [];
     for (let i = 0; i < props.publisher.length; i++) {

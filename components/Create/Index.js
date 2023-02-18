@@ -46,6 +46,7 @@ export default function Create() {
   const [filename, setFilename] = useState([]);
 
   const [allfile, setAllfile] = useState({});
+  const [targetUrl, setTargetUrl] = useState("");
 
   const [uploadStatus, setUploadStatus] = useState(false);
 
@@ -61,7 +62,7 @@ export default function Create() {
 
   const [ethAccount, setEthAccount] = useState(null);
 
-  console.log(ethAccount)
+  console.log(ethAccount);
 
   const handleClose = () => {
     setOpen(false);
@@ -116,8 +117,6 @@ export default function Create() {
       const res = await client.get(rootCid);
       const files = await res.files();
 
-      setUploadStatus(false);
-
       let temp = [];
       for (let i = 0; i < files.length; i++) {
         temp.push(URL.createObjectURL(files[i]));
@@ -129,6 +128,7 @@ export default function Create() {
         Description: adDescription,
         totalFunds: totalFunds,
         Address: ethAccount,
+        TargetUrl: targetUrl,
         ImgLink: "https://" + rootCid + ".ipfs.w3s.link" + "/" + filename[0],
       };
       const blob = new Blob([JSON.stringify(AdMetaData)], {
@@ -141,7 +141,6 @@ export default function Create() {
       ];
 
       const MetaDataCID = await client.put(MetaDataFile);
-      console.log(MetaDataCID);
       const provider = await new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = await new ethers.Contract(
@@ -155,9 +154,7 @@ export default function Create() {
       let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
-      if (tx) {
-        console.log(Processed);
-      }
+      setUploadStatus(false);
     }
   };
 
@@ -185,6 +182,24 @@ export default function Create() {
                 fullWidth
               />
               <Tooltip title="Name of your ad campaign">
+                <InfoOutlinedIcon />
+              </Tooltip>
+            </div>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <CssTextField
+                id="standard-basic"
+                variant="standard"
+                value={targetUrl}
+                onChange={(e) => {
+                  setTargetUrl(e.target.value);
+                }}
+                placeholder="Link to Your target Website"
+                type="text"
+                label="Link"
+                required
+                fullWidth
+              />
+              <Tooltip title="Target Site when a person clicks this AD">
                 <InfoOutlinedIcon />
               </Tooltip>
             </div>
@@ -267,18 +282,19 @@ export default function Create() {
               ) : (
                 <CircularProgress color="inherit" />
               )}
-              {ethAccount != null ?
-                (uploadStatus != true
-                  ? <button
+              {ethAccount != null ? (
+                uploadStatus != true ? (
+                  <button
                     className={styles.button}
                     type="button"
                     onClick={handleUpload}
                   >
                     Submit
                   </button>
-                  : <div></div>
+                ) : (
+                  <div></div>
                 )
-                :
+              ) : (
                 <button
                   className={styles.button}
                   type="button"
@@ -287,7 +303,7 @@ export default function Create() {
                 >
                   Submit
                 </button>
-              }
+              )}
             </div>
             {open ? (
               <Alert severity="warning" className="warning" id="alert">
@@ -341,6 +357,6 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
-    </div >
+    </div>
   );
 }
