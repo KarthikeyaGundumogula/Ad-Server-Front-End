@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [adsData, setAdsData] = useState([]);
   const [selectedAd, setSelectedAd] = useState();
   const [loading, setLoading] = useState(false);
-  const [Address, setAddress] = useState();
+  const [EthAccount, setEthAccount] = useState();
   const [balance, setBalance] = useState("");
   let { address } = useAccount();
 
@@ -38,7 +38,7 @@ export default function Dashboard() {
         body: JSON.stringify({
           query: `
                 {
-                    ads {
+                    ads(where:{Advertiser:"${address}"}) {
                         AdData
                         AdId
                         Advertiser
@@ -68,6 +68,7 @@ export default function Dashboard() {
       }
     );
     const result = await response.json();
+    console.log("result", result.data.ads.length);
     setAds(result.data.ads);
     setPublisher(result.data.publishers);
   };
@@ -95,12 +96,15 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchdata();
-    if (address != undefined) {
-      setAddress(address);
-      console.log(Address);
-    } else {
-      console.log("no account");
+    async function setAcc() {
+      if (address != undefined) {
+        console.log(address);
+        await setEthAccount(address);
+      } else {
+        console.log("no account");
+      }
     }
+    setAcc();
   }, [address]);
 
   const getContractDetails = async () => {
@@ -118,13 +122,15 @@ export default function Dashboard() {
     }
   };
   useEffect(() => {
-    forloop();
+    if (ads.length > 0) {
+      forloop();
+    }
   }, [ads]);
   useEffect(() => {
     async function getTokens() {
       try {
         const server = await getContractDetails();
-        const Balance = await server.balanceOf(Address, 0);
+        const Balance = await server.balanceOf(address, 0);
         setBalance(ethers.utils.formatEther(Balance));
       } catch (err) {
         console.log(err);
@@ -152,7 +158,7 @@ export default function Dashboard() {
     try {
       const server = await getContractDetails();
       const tx = await server.getAdTokens(
-        Address,
+        EthAccount,
         ethers.utils.parseEther("100")
       );
       console.log(tx);

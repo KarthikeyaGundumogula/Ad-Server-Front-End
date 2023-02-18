@@ -11,7 +11,7 @@ import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Contract, providers, ethers } from "ethers";
 import { useAccount } from "wagmi";
-import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import Link from "next/link";
 
 const Contract_Address = process.env.NEXT_PUBLIC_Server_ADDRESS;
@@ -37,18 +37,20 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 }));
 
 const AdDetails = (props) => {
-  console.log(props)
+  console.log(props);
 
-  const [campaign, setCampaign] = useState("");
   const [TotalFunds, setTotalFunds] = useState();
   const [currentFunds, setCurrentFunds] = useState();
-  const [address, setAddress] = useState();
+  const [EthAccount, setEthAccount] = useState();
   const [connected, setConnected] = useState(false);
-  const [publisherData, setPublisherData] = useState([])
-  const [adsPublisherData, setAdsPublisherData] = useState([])
+  const [publisherData, setPublisherData] = useState([]);
+  const [adsPublisherData, setAdsPublisherData] = useState([]);
+  const [availblePublisher, setAvailblePublisher] = useState();
+  const [addedPublisher, setAddedPublisher] = useState();
+  const [sunscribe, setSunscribe] = useState(false);
 
-  const { account } = useAccount();
-  const [running, setRunning] = useState(false)
+  const { address } = useAccount();
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
     const closePopUp = (e) => {
@@ -56,13 +58,20 @@ const AdDetails = (props) => {
         props.closeHandler(false);
       }
     };
-    setAddress("0x09446c630E1F285F14476aea9E78Ce08A2De565D");
+    if (address != undefined) {
+      setEthAccount(address);
+    } else {
+      return <h1>try connecting First</h1>;
+    }
     document.body.addEventListener("click", closePopUp);
 
-    if (account != undefined) {
+    if (address != undefined) {
       setConnected(true);
-      setAddress(account);
+      setEthAccount(address);
     }
+
+    setCurrentFunds(ethers.utils.formatEther(props.data.CurrentFunds));
+    setTotalFunds(ethers.utils.formatEther(props.data.TotalFunds));
 
     return () => document.body.removeEventListener("click", closePopUp);
   });
@@ -71,8 +80,14 @@ const AdDetails = (props) => {
     props.closeHandler(false);
   };
 
-  const handleChange = (event) => {
-    setCampaign(event.target.value);
+  const handleAvaiblePublisherChange = (event) => {
+    setAvailblePublisher(event.target.value);
+    setSunscribe(true);
+  };
+
+  const handleAddedPublisherChange = (event) => {
+    setAddedPublisher(event.target.value);
+    setSunscribe(false);
   };
 
   const initilizeloop = useCallback(() => {
@@ -91,30 +106,121 @@ const AdDetails = (props) => {
     const tempChoicesArray = [];
     for (let i = 0; i < props.data.Publishers.length; i++) {
       let obj = {};
-      let id = props.data.Publishers[i]
+      let id = props.data.Publishers[i];
       for (let i = 0; i < publisherData.length; i++) {
         if (publisherData[i].publisherId == id) {
           obj["adPublisherId"] = id;
           obj["adPublisherAddress"] = publisherData[i].publisherAddress;
           obj["adPublisherSite"] = publisherData[i].publisherSite;
-          console.log(obj)
         }
       }
-      console.log(obj)
       tempChoicesArray.push(obj);
     }
     setAdsPublisherData(tempChoicesArray);
+    setRunning(props.data.isRunning);
   }, [props, publisherData]);
 
   useEffect(() => {
     initilizeloop();
-  }, [props])
+  }, [props]);
 
   useEffect(() => {
     initilizeloop2();
-  }, [props, publisherData])
-
-  console.log(adsPublisherData)
+  }, [props, publisherData]);
+  const getContract = async () => {
+    const provider = await new providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contract = await new Contract(Contract_Address, Contract_ABI, signer);
+    return contract;
+  };
+  const handleStartCampaign = async () => {
+    try {
+      const contract = await getContract();
+      const result = await contract.startCampaign(props.data.AdId);
+      result.wait().then(() => {
+        setRunning(true);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleStopCampaign = async () => {
+    try {
+      const contract = await getContract();
+      const result = await contract.stopCampaign(props.data.AdId);
+      result.wait().then(() => {
+        setRunning(false);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleAddFunds = async () => {
+    try {
+      const contract = await getContract();
+      const result = await contract.addFundsToCampaign(
+        props.data.AdId,
+        ethers.utils.parseEther("10")
+      );
+      result.wait().then(() => {
+        let temp = currentFunds + 10;
+        setCurrentFunds(temp);
+        let temp2 = TotalFunds + 10;
+        setTotalFunds(temp2);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleWithdrawFunds = async () => {
+    try {
+      const contract = await getContract();
+      const result = await contract.removeFundsFromCampaign(
+        props.data.AdId,
+        ethers.utils.parseEther("10")
+      );
+      result.wait().then(() => {
+        let temp = currentFunds - 10;
+        setCurrentFunds(temp);
+        let temp2 = TotalFunds - 10;
+        setTotalFunds(temp2);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleAddPublisher = async () => {
+    if (addedPublisher != undefined) {
+      try {
+        const contract = await getContract();
+        const result = await contract.SubscribetoPublisher(
+          props.data.AdId,
+          addedPublisher
+        );
+        result.wait().then(() => {
+          console.log("done");
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert("Please Select Publisher");
+    }
+  };
+  const handleRemovePublisher = async () => {
+    try {
+      const contract = await getContract();
+      const result = await contract.UnSubscribetoPublisher(
+        props.data.AdId,
+        addedPublisher
+      );
+      result.wait().then(() => {
+        console.log("done");
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div id="background" className={styles.popUp}>
@@ -124,51 +230,97 @@ const AdDetails = (props) => {
           <img src={props.data.ImgLink} alt="ad image" />
           <div>{props.data.name}</div>
           <div>{props.data.Description}</div>
+          <div>
+            <p></p>
+            TotalViews:
+            {props.data.TotalViews}
+          </div>
+          <div>
+            TotalClicks:
+            {props.data.TotalClicks}
+          </div>
           <Link href="">
-            <div className={styles.link}>linked website <OpenInNewRoundedIcon /></div>
+            <div className={styles.link}>
+              linked website <OpenInNewRoundedIcon />
+            </div>
           </Link>
         </div>
         <div>
           <div className={styles.control}>
-            <button className={styles.button} type="button" onClick={() => { props.setRunning(false) }}>
-              <StopCircleOutlinedIcon /> Stop
-            </button>
-            <button className={styles.button} type="button" onClick={() => { props.setRunning(true) }}>
-              <PlayArrowOutlinedIcon /> Start
-            </button>
+            {running && (
+              <button
+                className={styles.button}
+                type="button"
+                onClick={handleStopCampaign}
+              >
+                <StopCircleOutlinedIcon /> Stop Campaign
+              </button>
+            )}
+            {!running && (
+              <button
+                className={styles.button}
+                type="button"
+                onClick={handleStartCampaign}
+              >
+                <PlayArrowOutlinedIcon /> Start Campaign
+              </button>
+            )}
           </div>
           <div className={styles.fundsDisplay}>
             <div>
               <div>Total Funds </div>
-              <h3>{props.data.totalFunds} ETH</h3>
+              <h3>{TotalFunds} ADT</h3>
             </div>
             <div>
               <div>Current Funds</div>
-              <h3>{props.data.CurrentFunds} ETH</h3>
+              <h3>{currentFunds} ADT</h3>
               <div>
-                <button className={styles.button} type="button">Buy AdToken</button>
-                <button className={styles.button} type="button">Swap AdToken</button>
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={handleAddFunds}
+                >
+                  Add Funds
+                </button>
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={handleWithdrawFunds}
+                >
+                  Decrese Funds
+                </button>
               </div>
             </div>
           </div>
           <div className={styles.publisher}>
             <div>
-              <button className={styles.button} type="button">
-                <StopCircleOutlinedIcon /> Subscribe
-              </button>
-              <button className={styles.button} type="button">
-                <PlayArrowOutlinedIcon /> UnSubscribe
-              </button>
+              {sunscribe ? (
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={handleAddPublisher}
+                >
+                  <StopCircleOutlinedIcon /> Add Publisher
+                </button>
+              ) : (
+                <button
+                  className={styles.button}
+                  type="button"
+                  onClick={handleRemovePublisher}
+                >
+                  <PlayArrowOutlinedIcon /> Remove Publisher
+                </button>
+              )}
             </div>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-simple-select-standard-label">
-                Subscribed Publishers
+                Added Publishers
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={campaign}
-                onChange={handleChange}
+                value={addedPublisher}
+                onChange={handleAddedPublisherChange}
                 input={<BootstrapInput />}
                 label="Publisher"
               >
@@ -177,21 +329,22 @@ const AdDetails = (props) => {
                 </MenuItem>
                 {adsPublisherData.map((data, index) => {
                   return (
-                    <MenuItem value={data.adPublisherAddress} key={index}>{data.adPublisherSite}</MenuItem>
-                  )
-                })
-                }
+                    <MenuItem value={data.adPublisherAddress} key={index}>
+                      {data.adPublisherSite}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-simple-select-standard-label">
-                UnSubscribed Publishers
+                Availble Publishers
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={campaign}
-                onChange={handleChange}
+                value={availblePublisher}
+                onChange={handleAvaiblePublisherChange}
                 input={<BootstrapInput />}
                 label="Publisher"
               >
@@ -200,10 +353,11 @@ const AdDetails = (props) => {
                 </MenuItem>
                 {publisherData.map((data, index) => {
                   return (
-                    <MenuItem value={data.publisherAddress} key={index}>{data.publisherSite}</MenuItem>
-                  )
-                })
-                }
+                    <MenuItem value={data.publisherAddress} key={index}>
+                      {data.publisherSite}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </div>

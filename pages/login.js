@@ -59,22 +59,10 @@ const Login = () => {
       setConnected(false);
     }
 
-    async function getPublisher() {
-      const query = `{
-<<<<<<< HEAD
-  publishers( where:{Publisher:"${address}"}) {
-    PublisherId
-    TotalEarnings
-    TotalClicks
-    PublisherSite
-    TotalViews
-    ViewReward
-    ClickReward
-    Advertisers
-  }
-}`;
-=======
-          publishers(first: 5 where:{Publisher:"${address}"}) {
+    try {
+      async function getPublisher() {
+        const query = `{
+          publishers(first: 5 ,where:{Publisher:"${address}"}) {
             PublisherId
             TotalEarnings
             TotalClicks
@@ -85,24 +73,30 @@ const Login = () => {
             Advertisers
           }
       }`;
->>>>>>> 2187166eda732eebeeba75869b1e22f2cad3cc0d
-      const response = await axios.post(SUBGRAPH, { query: query });
-      const data = response.data.data.publishers[0];
-      if (data != undefined) {
-        setIsPublisher(true);
-        setPublisherEarnings(data.TotalEarnings);
-        setPublisherTotalViews(data.TotalViews);
-        setPublisherTotalClicks(data.TotalClicks);
-        setPublisherSite(data.PublisherSite);
-        setPublisherClickCharge(data.ClickReward);
-        setPublisherAdCharge(data.ViewReward);
-        setPublishersAds(data.Advertisers);
-      } else {
-        setIsPublisher(false);
+        try {
+          const response = await axios.post(SUBGRAPH, { query: query });
+          const data = response.data.data.publishers[0];
+          if (data != undefined) {
+            setIsPublisher(true);
+            setPublisherEarnings(data.TotalEarnings);
+            setPublisherTotalViews(data.TotalViews);
+            setPublisherTotalClicks(data.TotalClicks);
+            setPublisherSite(data.PublisherSite);
+            setPublisherClickCharge(data.ClickReward);
+            setPublisherAdCharge(data.ViewReward);
+            setPublishersAds(data.Advertisers);
+          } else {
+            setIsPublisher(false);
+          }
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
 
-    getPublisher();
+      getPublisher();
+    } catch (err) {
+      console.error(err);
+    }
   }, [address]);
 
   const handleClickOpen = () => {
@@ -236,7 +230,7 @@ const Login = () => {
             Become Ad Publisher
           </button>
         )}
-        {isPublisher ?
+        {isPublisher ? (
           <div className={styles.publisherData}>
             <div>
               <div>Website</div>
@@ -246,15 +240,15 @@ const Login = () => {
             </div>
             <div>
               <div>Click Charge (in ETH)</div>
-              <div>{PublisherClickCharge}</div>
+              <div>{ethers.utils.formatEther(PublisherClickCharge)}</div>
             </div>
             <div>
               <div>Display Charge (in ETH)</div>
-              <div>{PublisherAdCharge}</div>
+              <div>{ethers.utils.formatEther(PublisherAdCharge)}</div>
             </div>
             <div>
               <div>Your Earnings (in ETH)</div>
-              <div>{PublisherEarnings}</div>
+              <div>{ethers.utils.formatEther(PublisherEarnings)}</div>
             </div>
             <div>
               <div>Total Views</div>
@@ -269,9 +263,9 @@ const Login = () => {
               <div>{PublishersAds}</div>
             </div> */}
           </div>
-          : <></>
-        }
-
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

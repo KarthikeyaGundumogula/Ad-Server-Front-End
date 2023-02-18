@@ -155,14 +155,7 @@ export default function Create() {
       let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
-<<<<<<< HEAD
       setUploadStatus(false);
-=======
-      if (tx) {
-        console.log(Processed);
-        setProcessed(true)
-      }
->>>>>>> 2187166eda732eebeeba75869b1e22f2cad3cc0d
     }
   };
 
@@ -365,11 +358,7 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
-<<<<<<< HEAD
-    </div>
-=======
       <CustomizedSnackbars open={Processed} closeHandle={setProcessed}/>
     </div >
->>>>>>> 2187166eda732eebeeba75869b1e22f2cad3cc0d
   );
 }
