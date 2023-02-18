@@ -47,7 +47,7 @@ const AdDetails = (props) => {
   const [adsPublisherData, setAdsPublisherData] = useState([]);
   const [availblePublisher, setAvailblePublisher] = useState();
   const [addedPublisher, setAddedPublisher] = useState();
-  const [sunscribe, setSunscribe] = useState(false);
+  const [sunscribe, setSunscribe] = useState(true);
 
   const { address } = useAccount();
   const [running, setRunning] = useState(false);
@@ -78,16 +78,6 @@ const AdDetails = (props) => {
 
   const onClickHandler = (e) => {
     props.closeHandler(false);
-  };
-
-  const handleAvaiblePublisherChange = (event) => {
-    setAvailblePublisher(event.target.value);
-    setSunscribe(true);
-  };
-
-  const handleAddedPublisherChange = (event) => {
-    setAddedPublisher(event.target.value);
-    setSunscribe(false);
   };
 
   const initilizeloop = useCallback(() => {
@@ -320,7 +310,10 @@ const AdDetails = (props) => {
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={addedPublisher}
-                onChange={handleAddedPublisherChange}
+                onChange={(e) => {
+                  setAddedPublisher(e.target.value);
+                  setSunscribe(false);
+                }}
                 input={<BootstrapInput />}
                 label="Publisher"
               >
@@ -344,7 +337,10 @@ const AdDetails = (props) => {
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={availblePublisher}
-                onChange={handleAvaiblePublisherChange}
+                onChange={(event) => {
+                  setAvailblePublisher(event.target.value);
+                  setSunscribe(true);
+                }}
                 input={<BootstrapInput />}
                 label="Publisher"
               >
