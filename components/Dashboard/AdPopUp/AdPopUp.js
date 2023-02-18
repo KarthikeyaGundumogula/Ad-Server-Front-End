@@ -11,6 +11,8 @@ import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Contract, providers, ethers } from "ethers";
 import { useAccount } from "wagmi";
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import Link from "next/link";
 
 const Contract_Address = process.env.NEXT_PUBLIC_Server_ADDRESS;
 const Contract_ABI = process.env.NEXT_PUBLIC_Server_ABI;
@@ -122,6 +124,9 @@ const AdDetails = (props) => {
           <img src={props.data.ImgLink} alt="ad image" />
           <div>{props.data.name}</div>
           <div>{props.data.Description}</div>
+          <Link href="">
+            <div className={styles.link}>linked website <OpenInNewRoundedIcon /></div>
+          </Link>
         </div>
         <div>
           <div className={styles.control}>
@@ -157,7 +162,7 @@ const AdDetails = (props) => {
             </div>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-simple-select-standard-label">
-                Publishers
+                Subscribed Publishers
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
@@ -173,6 +178,29 @@ const AdDetails = (props) => {
                 {adsPublisherData.map((data, index) => {
                   return (
                     <MenuItem value={data.adPublisherAddress} key={index}>{data.adPublisherSite}</MenuItem>
+                  )
+                })
+                }
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                UnSubscribed Publishers
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={campaign}
+                onChange={handleChange}
+                input={<BootstrapInput />}
+                label="Publisher"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {publisherData.map((data, index) => {
+                  return (
+                    <MenuItem value={data.publisherAddress} key={index}>{data.publisherSite}</MenuItem>
                   )
                 })
                 }

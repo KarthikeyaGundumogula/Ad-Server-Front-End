@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
+import CustomizedSnackbars from "../snackbar";
 
 import { ethers } from "ethers";
 
@@ -154,7 +155,14 @@ export default function Create() {
       let funds = BigInt(totalFunds);
       const tx = await contract.createAd(URI, funds);
       await tx.wait();
+<<<<<<< HEAD
       setUploadStatus(false);
+=======
+      if (tx) {
+        console.log(Processed);
+        setProcessed(true)
+      }
+>>>>>>> 2187166eda732eebeeba75869b1e22f2cad3cc0d
     }
   };
 
@@ -357,6 +365,11 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
+<<<<<<< HEAD
     </div>
+=======
+      <CustomizedSnackbars open={Processed} closeHandle={setProcessed}/>
+    </div >
+>>>>>>> 2187166eda732eebeeba75869b1e22f2cad3cc0d
   );
 }

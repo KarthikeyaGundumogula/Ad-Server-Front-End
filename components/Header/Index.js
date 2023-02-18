@@ -9,6 +9,7 @@ import CreateRoundedIcon from '@mui/icons-material/CreateRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 
 const Header = () => {
     const router = useRouter();
@@ -39,8 +40,8 @@ const Header = () => {
                 <Link href="/manage" className={styles.pageslink}>
                     <li className={styles.navtext}><DashboardRoundedIcon /> Dashboard</li>
                 </Link>
-                <Link href="/settings" className={styles.pageslink}>
-                    <li className={styles.navtext}>< ManageAccountsRoundedIcon /> Settings</li>
+                <Link href="/docs" className={styles.pageslink}>
+                    <li className={styles.navtext}><InsertDriveFileRoundedIcon /> Docs</li>
                 </Link>
                 <Link href="/login" className={styles.pageslink}>
                     {ethAccount != null
