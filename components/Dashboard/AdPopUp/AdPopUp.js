@@ -45,8 +45,8 @@ const AdDetails = (props) => {
   const [connected, setConnected] = useState(false);
   const [publisherData, setPublisherData] = useState([]);
   const [adsPublisherData, setAdsPublisherData] = useState([]);
-  const [availblePublisher, setAvailblePublisher] = useState();
-  const [addedPublisher, setAddedPublisher] = useState();
+  const [availblePublisher, setAvailblePublisher] = useState("");
+  const [addedPublisher, setAddedPublisher] = useState("");
   const [sunscribe, setSunscribe] = useState(true);
 
   const { address } = useAccount();
@@ -180,12 +180,12 @@ const AdDetails = (props) => {
     }
   };
   const handleAddPublisher = async () => {
-    if (addedPublisher != undefined) {
+    if (availblePublisher != "") {
       try {
         const contract = await getContract();
         const result = await contract.SubscribetoPublisher(
           props.data.AdId,
-          addedPublisher
+          availblePublisher
         );
         result.wait().then(() => {
           console.log("done");
@@ -198,17 +198,19 @@ const AdDetails = (props) => {
     }
   };
   const handleRemovePublisher = async () => {
-    try {
-      const contract = await getContract();
-      const result = await contract.UnSubscribetoPublisher(
-        props.data.AdId,
-        addedPublisher
-      );
-      result.wait().then(() => {
-        console.log("done");
-      });
-    } catch (err) {
-      console.log(err);
+    if (addedPublisher != null) {
+      try {
+        const contract = await getContract();
+        const result = await contract.UnSubscribetoPublisher(
+          props.data.AdId,
+          addedPublisher
+        );
+        result.wait().then(() => {
+          console.log("done");
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -312,6 +314,7 @@ const AdDetails = (props) => {
                 value={addedPublisher}
                 onChange={(e) => {
                   setAddedPublisher(e.target.value);
+                  console.log(addedPublisher);
                   setSunscribe(false);
                 }}
                 input={<BootstrapInput />}
@@ -339,6 +342,7 @@ const AdDetails = (props) => {
                 value={availblePublisher}
                 onChange={(event) => {
                   setAvailblePublisher(event.target.value);
+                  console.log(availblePublisher);
                   setSunscribe(true);
                 }}
                 input={<BootstrapInput />}
