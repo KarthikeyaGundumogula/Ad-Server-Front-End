@@ -231,9 +231,9 @@ const AdDetails = (props) => {
             TotalClicks:
             {props.data.TotalClicks}
           </div>
-          <Link href="">
+          <Link href={props.data.TargetUrl}>
             <div className={styles.link}>
-              linked website <OpenInNewRoundedIcon />
+              Target Website <OpenInNewRoundedIcon />
             </div>
           </Link>
         </div>
