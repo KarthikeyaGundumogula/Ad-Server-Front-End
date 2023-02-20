@@ -71,7 +71,7 @@ export default function HomePage() {
             to fraud and manipulation.
           </div>
           <div className={styles.benifitsteps}>
-            <div>1.Privacy</div>Users can have full control over their data and
+            <div>4.Privacy</div>Users can have full control over their data and
             privacy, with no need to share personal information with centralized
             ad-serving platforms.
           </div>
