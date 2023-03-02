@@ -2,7 +2,9 @@ import React from "react";
 import styles from "./Index.module.css";
 import { Web3Storage } from "web3.storage";
 import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
+
+import { Button, Modal } from 'antd';
+
 import TextField from "@mui/material/TextField";
 import { alpha, styled } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -69,6 +71,16 @@ export default function Create() {
     setOpen(false);
   };
 
+  const error = () => {
+    Modal.error({
+      centered: 'true',
+      title: 'Error while uploading your file',
+      content: 'Due to certain issue on storage client side, we are unable to upload your file. Try again later',
+    })
+
+    setUploadStatus(false);
+  };
+
   useEffect(() => {
     const warning = document.getElementsByClassName("warning");
     const getUser = async () => {
@@ -110,52 +122,58 @@ export default function Create() {
   const handleUpload = async () => {
     var fileInput = ipfs_file;
 
-    if (filename.length > 0) {
-      setUploadStatus(true);
+    try {
+      if (filename.length > 0) {
+        setUploadStatus(true);
 
-      const rootCid = await client.put(fileInput.files);
+        const rootCid = await client.put(fileInput.files);
 
-      const res = await client.get(rootCid);
-      const files = await res.files();
+        const res = await client.get(rootCid);
+        const files = await res.files();
 
-      let temp = [];
-      for (let i = 0; i < files.length; i++) {
-        temp.push(URL.createObjectURL(files[i]));
+        let temp = [];
+        for (let i = 0; i < files.length; i++) {
+          temp.push(URL.createObjectURL(files[i]));
+        }
+
+        setFile(temp);
+        const AdMetaData = {
+          name: AdName,
+          Description: adDescription,
+          totalFunds: totalFunds,
+          Address: ethAccount,
+          TargetUrl: targetUrl,
+          ImgLink: "https://" + rootCid + ".ipfs.w3s.link" + "/" + filename[0],
+        };
+        const blob = new Blob([JSON.stringify(AdMetaData)], {
+          type: "application/json",
+        });
+
+        const MetaDataFile = [
+          new File(["contents-of-file-1"], "plain-utf8.txt"),
+          new File([blob], "AdMetaData.json"),
+        ];
+
+        const MetaDataCID = await client.put(MetaDataFile);
+        const provider = await new ethers.providers.Web3Provider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = await new ethers.Contract(
+          Server_Address,
+          Server_ABI,
+          signer
+        );
+        let URI =
+          "https://" + MetaDataCID + ".ipfs.w3s.link" + "/AdMetaData.json";
+
+        let funds = BigInt(totalFunds);
+        const tx = await contract.createAd(URI, funds);
+        await tx.wait();
+        setUploadStatus(false);
       }
 
-      setFile(temp);
-      const AdMetaData = {
-        name: AdName,
-        Description: adDescription,
-        totalFunds: totalFunds,
-        Address: ethAccount,
-        TargetUrl: targetUrl,
-        ImgLink: "https://" + rootCid + ".ipfs.w3s.link" + "/" + filename[0],
-      };
-      const blob = new Blob([JSON.stringify(AdMetaData)], {
-        type: "application/json",
-      });
-
-      const MetaDataFile = [
-        new File(["contents-of-file-1"], "plain-utf8.txt"),
-        new File([blob], "AdMetaData.json"),
-      ];
-
-      const MetaDataCID = await client.put(MetaDataFile);
-      const provider = await new ethers.providers.Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = await new ethers.Contract(
-        Server_Address,
-        Server_ABI,
-        signer
-      );
-      let URI =
-        "https://" + MetaDataCID + ".ipfs.w3s.link" + "/AdMetaData.json";
-
-      let funds = BigInt(totalFunds);
-      const tx = await contract.createAd(URI, funds);
-      await tx.wait();
-      setUploadStatus(false);
+    } catch(err) {
+      console.log(err)
+      error()
     }
   };
 
@@ -204,22 +222,6 @@ export default function Create() {
                 <InfoOutlinedIcon />
               </Tooltip>
             </div>
-            {/* <div style={{ display: "flex", alignItems: "flex-end" }}>
-                            <CssTextField
-                                id="standard-basic"
-                                variant="standard"
-                                ref={clickReward}
-                                placeholder="Reward you want to give for clicking on Ad"
-                                type="number"
-                                label="Reward for Clicks on Ad (ETH)"
-                                required
-                                fullWidth
-                            />
-                            <Tooltip title="Reward you want to give for clicking on Ad">
-                                <InfoOutlinedIcon />
-                            </Tooltip>
-
-                        </div>*/}
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <CssTextField
                 id="standard-basic"
@@ -358,7 +360,7 @@ export default function Create() {
         Your Ad <br></br>
         Campaign
       </div>
-      <CustomizedSnackbars open={Processed} closeHandle={setProcessed}/>
+      <CustomizedSnackbars open={Processed} closeHandle={setProcessed} />
     </div >
   );
 }

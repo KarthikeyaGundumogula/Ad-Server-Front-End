@@ -63,6 +63,10 @@ a {
   background-color: rgb(207, 210, 218) !important;
 }
 
+.ant-modal-content{
+  background: wheat !important;
+}
+
 
 body {
   color: #C89B7B;
